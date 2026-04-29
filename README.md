@@ -44,21 +44,3 @@ Open in browser:
 You can test the model from the command line:
 
 `python test_predict.py`
-
-## PWA (Offline Support)
-
-- The app includes `static/manifest.json` + `static/service-worker.js` + `static/offline.html`.
-- Install it from Chrome/Edge using “Install app”.
-- Offline mode supports opening pages and UI; prediction still requires a running backend.
-
-## Build Windows EXE (.exe) with PyInstaller
-
-1. Run: `powershell -ExecutionPolicy Bypass -File packaging/build_exe.ps1`
-2. Start: `dist/PlantDetect/PlantDetect.exe`
-3. Open: `http://127.0.0.1:5000/`
-
-## Android APK (WebView Wrapper)
-
-- Open `android_webview/` in Android Studio.
-- Update the URL in `android_webview/app/src/main/java/com/plantdetect/webview/MainActivity.kt`.
-- Build / Run to generate the APK.
