@@ -1,0 +1,831 @@
+{% extends "import.html" %} 
+{% block content %}
+
+<div style="min-height:100vh; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); padding:30px;">
+
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+        <h1 style="color:#ffffff; font-weight:800;">
+            🌿 <span data-i18n="app_title">AI Crop Disease Detection</span>
+        </h1>
+        <p style="color:#cfd8dc;">
+            <span data-i18n="app_subtitle">Smart Deep Learning System for Instant Plant Disease Prediction</span>
+        </p>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="container">
+        <div class="card shadow-lg"
+            style="border-radius:20px; padding:30px; background:#ffffffee;">
+
+            <!-- WEATHER & LOCATION -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h5 style="font-weight:bold; color:#1976d2;">Weather-Based Suggestions</h5>
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        <input type="text" id="locationInput" class="form-control" placeholder="Enter your city or location" style="max-width:220px; display:inline-block;">
+                        <button id="detectLocation" class="btn btn-sm btn-info" style="font-weight:bold;">Detect My Location</button>
+                        <button id="fetchWeather" class="btn btn-sm btn-success" style="font-weight:bold;">Get Weather</button>
+                    </div>
+                    <div id="weatherInfo" style="margin-top:10px; color:#333; font-size:15px;"></div>
+                </div>
+            </div>
+
+            <div class="row text-center mb-3">
+                <div class="col-md-6 mb-3">
+                    <h5 style="font-weight:bold; color:#1b5e20;"> Upload Image</h5>
+                    <form id="upload-file" method="post" enctype="multipart/form-data">
+                        <label class="btn w-100"
+                            style="background:linear-gradient(90deg, #1b5e20, #4caf50); color:white; padding:15px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:18px;">
+                            Choose File
+                            <input type="file" name="file" id="imageUpload" accept="image/*" style="display:none;">
+                        </label>
+                    </form>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5 style="font-weight:bold; color:#ff9800;"> Use Camera</h5>
+                    <button id="openCamera" class="btn w-100"
+                        style="background:linear-gradient(90deg, #ff9800, #ffb74d); color:white; padding:15px; border-radius:10px; font-weight:bold; font-size:18px; border:none;">
+                        Open Camera
+                    </button>
+                </div>
+            </div>
+
+            <!-- CAMERA BUTTONS & VIDEO -->
+            <div id="cameraSection" class="text-center mt-3" style="display:none;">
+                <p id="cameraTip" style="color:#d32f2f; font-weight:bold; font-size:14px; margin-bottom:10px;">
+                     Tip: Ensure the leaf is well-lit and clearly centered before capturing!
+                </p>
+                
+                <!-- Use a wrapper to constrain video size and maintain aspect ratio dynamically -->
+                <div style="position:relative; width:100%; max-width:400px; margin:0 auto; overflow:hidden; border-radius:12px; border:3px solid #ff9800; background:#000;">
+                    <video id="video" autoplay playsinline muted style="width:100%; height:auto; display:block; object-fit:cover;"></video>
+                </div>
+
+                <div class="mt-3">
+                    <button id="captureBtn" class="btn btn-danger" style="padding:10px 20px; border-radius:10px; font-weight:bold; font-size:16px;">
+                        Capture Frame
+                    </button>
+
+                    <button id="switchCamera" class="btn btn-secondary" style="padding:10px 20px; border-radius:10px; font-weight:bold; font-size:16px; margin-left:10px;">
+                        Switch Lens
+                    </button>
+
+                    <!-- NEW BUTTON -->
+                    <button id="closeCamera" class="btn btn-dark" style="padding:10px 20px; border-radius:10px; font-weight:bold; font-size:16px; margin-left:10px;">
+                        Close Camera
+                    </button>
+                </div>
+                                <canvas id="canvas" style="display:none;"></canvas>
+            </div>
+
+            <!-- IMAGE PREVIEW -->
+            <div class="image-section mt-4 text-center" style="display:none;">
+                <div style="display:inline-block; padding:10px; border-radius:15px; background:#f5f5f5; box-shadow:0px 4px 12px rgba(0,0,0,0.2);">
+                    <img id="imagePreview" style="width:100%; max-width:300px; border-radius:12px; border:3px solid #1b5e20; object-fit:contain;">
+                </div>
+                <br><br>
+                <button id="btn-predict" class="btn btn-primary" style="padding:12px 30px; border-radius:12px; font-size:20px; font-weight:bold;">
+                   Predict Disease
+                </button>
+            </div>
+
+            <!-- LOADER -->
+            <div class="loader text-center mt-4" style="display:none;">
+                <div class="spinner-border text-success" style="width: 3rem; height: 3rem;"></div>
+                <p class="mt-2" style="font-weight:bold; font-size:18px; color:#1b5e20;">AI Processing Image...</p>
+            </div>
+
+            <!-- RESULT -->
+            <div id="result" class="mt-4 text-center"></div>
+
+            <!-- VOICE AI ASSISTANT -->
+            <div id="assistantBox" class="mt-4" style="display:none;">
+                <div style="background:#ffffff; border-radius:18px; padding:18px; box-shadow:0px 6px 18px rgba(0,0,0,0.12);">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                        <div>
+                            <div style="font-weight:900; color:#263238; font-size:18px;">Voice AI Assistant</div>
+                            <div style="color:#607d8b; font-size:14px;">Ask: what disease, how to treat, is it dangerous</div>
+                        </div>
+                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                            <button id="vaMicBtn" class="btn btn-sm btn-primary" style="font-weight:800;">Start Mic</button>
+                            <button id="vaSpeakBtn" class="btn btn-sm btn-outline-secondary" style="font-weight:800;">Speak Answer</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                        <input id="vaTextInput" class="form-control" placeholder="Type your question..." style="flex:1; min-width:220px;">
+                        <button id="vaAskBtn" class="btn btn-success" style="font-weight:800;">Ask</button>
+                    </div>
+
+                    <div style="margin-top:12px;">
+                        <div style="font-weight:800; color:#37474f; margin-bottom:6px;">You said</div>
+                        <div id="vaTranscript" style="background:#f5f5f5; border-radius:12px; padding:10px; color:#263238; min-height:44px;"></div>
+                    </div>
+
+                    <div style="margin-top:12px;">
+                        <div style="font-weight:800; color:#37474f; margin-bottom:6px;">Assistant</div>
+                        <div id="vaResponse" style="background:#e8f5e9; border-radius:12px; padding:12px; color:#1b5e20; min-height:54px;"></div>
+                        <div id="vaHint" style="margin-top:8px; color:#78909c; font-size:13px;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
+<script>
+// WEATHER & LOCATION
+const weatherInfo = document.getElementById("weatherInfo");
+const locationInput = document.getElementById("locationInput");
+const detectLocationBtn = document.getElementById("detectLocation");
+const fetchWeatherBtn = document.getElementById("fetchWeather");
+
+// Detect location using browser geolocation
+detectLocationBtn.onclick = function() {
+    if (!navigator.geolocation) {
+        weatherInfo.innerHTML = "Geolocation not supported.";
+        return;
+    }
+    weatherInfo.innerHTML = "Detecting location...";
+    navigator.geolocation.getCurrentPosition(function(pos) {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        // Use reverse geocoding to get city name (OpenWeatherMap API)
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.address && data.address.city) {
+                    locationInput.value = data.address.city;
+                } else if (data.address && data.address.town) {
+                    locationInput.value = data.address.town;
+                } else if (data.address && data.address.village) {
+                    locationInput.value = data.address.village;
+                } else {
+                    locationInput.value = `${lat.toFixed(3)},${lon.toFixed(3)}`;
+                }
+                weatherInfo.innerHTML = "Location detected.";
+            })
+            .catch(() => {
+                locationInput.value = `${lat.toFixed(3)},${lon.toFixed(3)}`;
+                weatherInfo.innerHTML = "Location detected.";
+            });
+    }, function() {
+        weatherInfo.innerHTML = "Location access denied.";
+    });
+};
+
+// Weather values (used for backend advice; don't parse from UI text)
+let lastWeatherTemp = null;
+let lastWeatherHumidity = null;
+let lastWeatherLat = null;
+let lastWeatherLon = null;
+
+function renderWeather(temp, humidity) {
+    lastWeatherTemp = Number.isFinite(temp) ? temp : null;
+    lastWeatherHumidity = Number.isFinite(humidity) ? humidity : null;
+
+    let risk = "";
+    if (lastWeatherHumidity !== null) {
+        if (lastWeatherHumidity > 80) {
+            risk = "<b style='color:#c62828;'>High humidity -> Powdery mildew risk increased</b>";
+        } else if (lastWeatherHumidity > 60) {
+            risk = "<b style='color:#fbc02d;'>Moderate humidity -> Monitor for fungal diseases</b>";
+        } else {
+            risk = "<b style='color:#388e3c;'>Low humidity -> Fungal risk is low</b>";
+        }
+    }
+
+    const tempText = (lastWeatherTemp === null) ? "N/A" : `${lastWeatherTemp.toFixed(1)} C`;
+    const humText = (lastWeatherHumidity === null) ? "N/A" : `${Math.round(lastWeatherHumidity)}%`;
+    weatherInfo.innerHTML = `Temp: <b>${tempText}</b> | Humidity: <b>${humText}</b><br>${risk}`;
+}
+
+async function fetchOpenMeteo(lat, lon) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&current=temperature_2m,relative_humidity_2m`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!res.ok || !data || !data.current) throw new Error("Weather not found");
+    const temp = Number(data.current.temperature_2m);
+    const humidity = Number(data.current.relative_humidity_2m);
+    return { temp, humidity };
+}
+
+async function geocodeNominatim(query) {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!res.ok || !Array.isArray(data) || data.length === 0) return null;
+    return { lat: data[0].lat, lon: data[0].lon };
+}
+
+async function geocodeOpenMeteo(query) {
+    const url = `https://geocoding-api.open-meteo.com/v1/search?count=1&name=${encodeURIComponent(query)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!res.ok || !data || !Array.isArray(data.results) || data.results.length === 0) return null;
+    return { lat: data.results[0].latitude, lon: data.results[0].longitude };
+}
+
+// Fetch weather data (no API key required)
+fetchWeatherBtn.onclick = async function() {
+    const loc = locationInput.value.trim();
+    if (!loc) {
+        weatherInfo.innerHTML = "Please enter a location.";
+        return;
+    }
+
+    weatherInfo.innerHTML = "Fetching weather...";
+    lastWeatherTemp = null;
+    lastWeatherHumidity = null;
+    lastWeatherLat = null;
+    lastWeatherLon = null;
+
+    try {
+        let lat = null;
+        let lon = null;
+
+        if (/^-?\\d+(?:\\.\\d+)?\\s*,\\s*-?\\d+(?:\\.\\d+)?$/.test(loc)) {
+            const parts = loc.split(",");
+            lat = parts[0].trim();
+            lon = parts[1].trim();
+        } else {
+            const geo = (await geocodeNominatim(loc)) || (await geocodeOpenMeteo(loc));
+            if (!geo) throw new Error("Location not found");
+            lat = geo.lat;
+            lon = geo.lon;
+        }
+
+        lastWeatherLat = Number(lat);
+        lastWeatherLon = Number(lon);
+        const { temp, humidity } = await fetchOpenMeteo(lat, lon);
+        renderWeather(temp, humidity);
+    } catch (e) {
+        weatherInfo.innerHTML = "Weather fetch failed.";
+        lastWeatherTemp = null;
+        lastWeatherHumidity = null;
+        lastWeatherLat = null;
+        lastWeatherLon = null;
+    }
+};
+let imageInput = document.getElementById("imageUpload");
+let preview = document.getElementById("imagePreview");
+let imageSection = document.querySelector(".image-section");
+let loader = document.querySelector(".loader");
+let resultBox = document.getElementById("result");
+
+let video = document.getElementById("video");
+let canvas = document.getElementById("canvas");
+let cameraSection = document.getElementById("cameraSection");
+
+let openCamera = document.getElementById("openCamera");
+let switchCamera = document.getElementById("switchCamera");
+let captureBtn = document.getElementById("captureBtn");
+
+let stream;
+let currentFacingMode = "environment"; // back camera default
+let selectedFile = null;
+
+// Prediction context (used by Voice AI Assistant)
+let lastPrediction = null;
+let confidenceChart = null;
+
+function reliabilityInfo(conf) {
+    const c = Number(conf);
+    if (!Number.isFinite(c)) return { label: "Unknown Reliability", color: "#546e7a" };
+    if (c > 85) return { label: "High Reliability", color: "#2e7d32" };
+    if (c >= 70) return { label: "Moderate Confidence", color: "#f9a825" };
+    return { label: "Low Confidence â€“ Retake Image", color: "#c62828" };
+}
+
+function urgencyInfo(disease, conf) {
+    const d = String(disease || "");
+    const c = Number(conf);
+    if (!d || d.toLowerCase().includes("healthy")) {
+        return { label: "No Action Needed", color: "#2e7d32" };
+    }
+    if (Number.isFinite(c) && c >= 85) return { label: "Immediate Action Required", color: "#c62828" };
+    if (Number.isFinite(c) && c >= 70) return { label: "Preventive Care Suggested", color: "#f57c00" };
+    return { label: "Low Confidence â€“ Retake Image", color: "#c62828" };
+}
+
+function productRecommendations(disease, conf) {
+    const d = String(disease || "");
+    const c = Number(conf);
+    const severity = Number.isFinite(c) && c >= 85 ? "severe" : "mild";
+
+    const recs = [];
+    if (d.toLowerCase().includes("powdery")) {
+        recs.push(
+            {
+                name: "Sulfur Fungicide (Wettable Sulfur)",
+                use: "Spray on affected leaves; follow label dosage. Avoid spraying in extreme heat.",
+            },
+            {
+                name: "Neem Oil Spray",
+                use: "Preventive + early-stage control. Spray both sides of leaves every 5â€“7 days.",
+            }
+        );
+    } else if (d.toLowerCase().includes("rust")) {
+        recs.push(
+            {
+                name: "Mancozeb Fungicide",
+                use: "Protectant fungicide. Use as per label; repeat after rain if needed.",
+            },
+            {
+                name: "Chlorothalonil Fungicide",
+                use: "Broad-spectrum control. Ensure full leaf coverage; follow safety instructions.",
+            }
+        );
+    } else if (d.toLowerCase().includes("healthy")) {
+        recs.push(
+            {
+                name: "Balanced NPK Fertilizer (19-19-19)",
+                use: "Supports overall growth. Apply in recommended dose; avoid over-fertilizing.",
+            },
+            {
+                name: "Seaweed Extract (Biostimulant)",
+                use: "Improves stress tolerance. Use as foliar spray as per label.",
+            }
+        );
+    } else if (d) {
+        recs.push({
+            name: "General Plant Fungicide",
+            use: "Use a broad-spectrum fungicide suitable for your crop; follow label directions.",
+        });
+    }
+
+    const urgency = d.toLowerCase().includes("healthy")
+        ? "No Action Needed"
+        : (severity === "severe" ? "Immediate Action Required" : "Preventive Care Suggested");
+
+    return { urgency, recs };
+}
+
+function buyUrl(query) {
+    const q = encodeURIComponent(String(query || ""));
+    return `https://www.google.com/search?q=${q}&tbm=shop`;
+}
+
+function renderConfidenceChart(top3) {
+    const canvas = document.getElementById("confidenceChart");
+    if (!canvas || !window.Chart) return;
+
+    const labels = Array.isArray(top3) ? top3.map(x => String(x.label || "")) : [];
+    const values = Array.isArray(top3) ? top3.map(x => Number(x.confidence || 0)) : [];
+
+    if (confidenceChart) {
+        try { confidenceChart.destroy(); } catch (e) {}
+        confidenceChart = null;
+    }
+
+    if (labels.length === 0) return;
+
+    const ctx = canvas.getContext("2d");
+    confidenceChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Confidence (%)",
+                    data: values,
+                    backgroundColor: ["#2e7d32", "#f9a825", "#c62828"],
+                    borderRadius: 10,
+                    borderSkipped: false,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: { callback: (v) => v + "%" },
+                },
+                x: {
+                    grid: { display: false },
+                },
+            },
+        },
+    });
+}
+
+// VOICE AI ASSISTANT (SpeechRecognition + TTS)
+const assistantBox = document.getElementById("assistantBox");
+const vaMicBtn = document.getElementById("vaMicBtn");
+const vaSpeakBtn = document.getElementById("vaSpeakBtn");
+const vaAskBtn = document.getElementById("vaAskBtn");
+const vaTextInput = document.getElementById("vaTextInput");
+const vaTranscript = document.getElementById("vaTranscript");
+const vaResponse = document.getElementById("vaResponse");
+const vaHint = document.getElementById("vaHint");
+
+let lastAssistantText = "";
+let recognition = null;
+let isListening = false;
+
+function setAssistantVisible(on) {
+    if (!assistantBox) return;
+    assistantBox.style.display = on ? "block" : "none";
+}
+
+function speakText(text) {
+    if (!("speechSynthesis" in window)) return;
+    try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(String(text || ""));
+        utter.lang = "en-IN";
+        utter.rate = 1.0;
+        window.speechSynthesis.speak(utter);
+    } catch (e) {}
+}
+
+function setAssistantAnswer(text, { speak = false } = {}) {
+    lastAssistantText = String(text || "");
+    if (vaResponse) vaResponse.textContent = lastAssistantText;
+    if (speak) speakText(lastAssistantText);
+}
+
+function buildAssistantAnswer(question) {
+    const q = String(question || "").toLowerCase().trim();
+    if (!q) return "Ask a question like: what disease is this, how to treat, is it dangerous.";
+
+    if (!lastPrediction) {
+        return "Run a prediction first, then ask me about the disease, confidence, remedy, or danger level.";
+    }
+
+    const disease = lastPrediction.result || "Unknown";
+    const conf = lastPrediction.confidence;
+    const remedy = lastPrediction.remedy || "Not available";
+    const rel = reliabilityInfo(conf).label;
+    const urg = urgencyInfo(disease, conf).label;
+
+    const wantsDisease = q.includes("what disease") || q.includes("which disease") || q.includes("disease is this") || q.includes("name of disease");
+    const wantsTreat = q.includes("treat") || q.includes("treatment") || q.includes("remedy") || q.includes("medicine") || q.includes("fungicide") || q.includes("spray");
+    const wantsDanger = q.includes("danger") || q.includes("dangerous") || q.includes("severity") || q.includes("serious") || q.includes("risk");
+    const wantsConfidence = q.includes("confidence") || q.includes("reliable") || q.includes("reliability") || q.includes("sure");
+    const wantsProducts = q.includes("buy") || q.includes("product") || q.includes("recommend") || q.includes("pesticide") || q.includes("fertilizer");
+
+    if (wantsDisease) {
+        return `The predicted disease is ${disease} with ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% confidence (${rel}).`;
+    }
+
+    if (wantsTreat) {
+        const { recs } = productRecommendations(disease, conf);
+        const extra = recs && recs.length ? ` Recommended products: ${recs.slice(0, 2).map(r => r.name).join(" and ")}.` : "";
+        return `Remedy for ${disease}: ${remedy}.${extra} (${urg}).`;
+    }
+
+    if (wantsDanger) {
+        return `Severity indicator: ${urg}. Confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% (${rel}). If symptoms spread, isolate the plant and follow the remedy.`;
+    }
+
+    if (wantsConfidence) {
+        return `Model confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% which means: ${rel}.`;
+    }
+
+    if (wantsProducts) {
+        const { recs } = productRecommendations(disease, conf);
+        if (!recs || recs.length === 0) return `I don't have product suggestions for ${disease}.`;
+        return `For ${disease}, you can consider: ${recs.slice(0, 3).map(r => r.name).join(", ")}. (${urg})`;
+    }
+
+    return `For ${disease}, confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% (${rel}). Remedy: ${remedy}. Ask: how to treat or is it dangerous.`;
+}
+
+function ensureRecognition() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return null;
+
+    const r = new SR();
+    r.lang = "en-IN";
+    r.interimResults = false;
+    r.continuous = false;
+    r.onresult = (event) => {
+        const txt = event.results && event.results[0] && event.results[0][0] ? event.results[0][0].transcript : "";
+        if (vaTranscript) vaTranscript.textContent = txt;
+        const ans = buildAssistantAnswer(txt);
+        setAssistantAnswer(ans, { speak: true });
+    };
+    r.onerror = () => {
+        isListening = false;
+        if (vaMicBtn) vaMicBtn.textContent = "Start Mic";
+        if (vaHint) vaHint.textContent = "Mic error. If prompted, allow microphone permission and try again.";
+    };
+    r.onend = () => {
+        isListening = false;
+        if (vaMicBtn) vaMicBtn.textContent = "Start Mic";
+    };
+
+    return r;
+}
+
+if (vaMicBtn) {
+    vaMicBtn.onclick = () => {
+        recognition = recognition || ensureRecognition();
+        if (!recognition) {
+            if (vaHint) vaHint.textContent = "Speech recognition is not supported in this browser. Use the text box to ask.";
+            return;
+        }
+
+        if (isListening) {
+            try { recognition.stop(); } catch (e) {}
+            isListening = false;
+            vaMicBtn.textContent = "Start Mic";
+            return;
+        }
+
+        if (vaHint) vaHint.textContent = "Listening...";
+        if (vaTranscript) vaTranscript.textContent = "";
+        isListening = true;
+        vaMicBtn.textContent = "Stop Mic";
+        try { recognition.start(); } catch (e) { isListening = false; vaMicBtn.textContent = "Start Mic"; }
+    };
+}
+
+if (vaAskBtn) {
+    vaAskBtn.onclick = () => {
+        const q = vaTextInput ? vaTextInput.value : "";
+        if (vaTranscript) vaTranscript.textContent = q || "";
+        const ans = buildAssistantAnswer(q);
+        setAssistantAnswer(ans, { speak: true });
+    };
+}
+
+if (vaSpeakBtn) {
+    vaSpeakBtn.onclick = () => {
+        if (lastAssistantText) speakText(lastAssistantText);
+    };
+}
+
+/* IMAGE UPLOAD PREVIEW */
+imageInput.onchange = function () {
+    let file = this.files[0];
+    if (!file) return;
+
+    selectedFile = file;
+
+    let reader = new FileReader();
+    reader.onload = function (e) {
+        preview.src = e.target.result;
+        imageSection.style.display = "block";
+        cameraSection.style.display = "none";
+        if (stream) stream.getTracks().forEach(track => track.stop());
+    };
+    reader.readAsDataURL(file);
+};
+
+/* START CAMERA STREAM */
+async function startCamera(facingMode) {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: facingMode }
+        });
+        video.srcObject = stream;
+        cameraSection.style.display = "block";
+        imageSection.style.display = "none"; // Hide previous preview
+    } catch (err) {
+        alert("Camera access denied or not supported.");
+    }
+}
+
+/* OPEN CAMERA */
+openCamera.onclick = function () {
+    startCamera(currentFacingMode);
+};
+
+/* SWITCH CAMERA */
+switchCamera.onclick = function () {
+    currentFacingMode = (currentFacingMode === "environment") ? "user" : "environment";
+    startCamera(currentFacingMode);
+};
+
+/* CAPTURE IMAGE */
+captureBtn.onclick = function () {
+    let context = canvas.getContext("2d");
+
+    // Adjust crop to fit camera bounds dynamically to prevent distortion
+    let vW = video.videoWidth;
+    let vH = video.videoHeight;
+    let minDim = Math.min(vW, vH);
+    let startX = (vW - minDim) / 2;
+    let startY = (vH - minDim) / 2;
+
+    canvas.width = minDim;
+    canvas.height = minDim;
+
+    context.drawImage(video, startX, startY, minDim, minDim, 0, 0, minDim, minDim);
+
+    canvas.toBlob(function (blob) {
+        selectedFile = new File([blob], "camera.jpg", { type: "image/jpeg" });
+        preview.src = URL.createObjectURL(blob);
+        imageSection.style.display = "block";
+
+        if (stream) stream.getTracks().forEach(track => track.stop());
+        cameraSection.style.display = "none";
+
+    }, "image/jpeg", 1.0);
+};
+
+/* PREDICT */
+document.getElementById("btn-predict").onclick = function () {
+    if (!selectedFile) {
+        alert("Please upload an image or capture from camera first.");
+        return;
+    }
+
+    loader.style.display = "block";
+    resultBox.innerHTML = "";
+    
+    let formData = new FormData();
+    formData.append("file", selectedFile);
+    // Add weather data if available
+    if (Number.isFinite(lastWeatherTemp)) {
+        formData.append("weather_temp", String(lastWeatherTemp));
+    }
+    if (Number.isFinite(lastWeatherHumidity)) {
+        formData.append("weather_humidity", String(lastWeatherHumidity));
+    }
+
+    fetch("/predict", {
+        method: "POST",
+        body: formData
+    })
+    .then(async (res) => {
+        let data = null;
+        try {
+            data = await res.json();
+        } catch (e) {
+            data = null;
+        }
+
+        if (!res.ok) {
+            const msg = (data && data.error) ? data.error : `Backend error (HTTP ${res.status})`;
+            loader.style.display = "none";
+            resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;"><b>Error:</b> ${msg}</div>`;
+            return null;
+        }
+        return data;
+    })
+    .then(data => {
+        if (!data) return;
+        loader.style.display = "none";
+        
+        if (data.error) {
+            resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;"><b>Error:</b> ${data.error}</div>`;
+            return;
+        }
+
+        let isHealthy = data.result && data.result.toLowerCase().includes('healthy');
+        let statusColor = isHealthy ? '#2e7d32' : '#c62828';
+        let confVal = (data.confidence !== undefined && data.confidence !== null) ? Number(data.confidence) : NaN;
+        let relInfo = reliabilityInfo(confVal);
+        let urgInfo = urgencyInfo(data.result, confVal);
+        
+        // Dynamic search link for "Buy Treatment"
+        let searchKeyword = encodeURIComponent(data.result + " fungicide plant disease treatment");
+        let buyLink = `https://www.google.com/search?q=${searchKeyword}&tbm=shop`;
+
+        // Product recommendations (context-aware)
+        let productPack = productRecommendations(data.result, confVal);
+        let productsHtml = '';
+        if (productPack && productPack.recs && productPack.recs.length) {
+            productsHtml = `
+                <div style="margin-top:16px; padding:14px; background:#ffffff; border-radius:14px; border:1px solid #e0e0e0; text-align:left;">
+                    <div style="font-weight:900; color:#263238; font-size:16px; margin-bottom:10px;">Recommended Products</div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+                        ${productPack.recs.slice(0, 3).map(p => `
+                            <div style="border:1px solid #eceff1; border-radius:12px; padding:12px; background:#fafafa;">
+                                <div style="font-weight:900; color:#1b5e20; margin-bottom:6px;">${p.name}</div>
+                                <div style="color:#455a64; font-size:14px; line-height:1.35; min-height:40px;">${p.use}</div>
+                                <div style="margin-top:10px;">
+                                    <a href="${buyUrl(p.name)}" target="_blank" class="btn btn-sm" style="font-weight:800; color:#fff; background:#1976d2; border-radius:10px; padding:8px 10px;">
+                                        Buy Now
+                                    </a>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Top 3 predictions display
+        let top3Html = '';
+        if (data.top3 && Array.isArray(data.top3)) {
+            top3Html = `<div style=\"margin-bottom:18px;\">
+                <h4 style=\"color:#388e3c; font-weight:700;\">Top 3 Predictions</h4>
+                <ol style=\"list-style:none; padding:0; margin:0;\">
+                    ${data.top3.map((item, idx) => `
+                        <li style=\"margin-bottom:8px;\">
+                            <span style=\"font-weight:bold; color:#1b5e20; font-size:17px;\">${idx+1}. ${item.label}</span>
+                            <span style=\"color:#555; font-size:16px;\"> â€“ ${item.confidence.toFixed(2)}%</span>
+                        </li>
+                    `).join('')}
+                </ol>
+            </div>`;
+        }
+
+        let gradcamHtml = '';
+        if (data.gradcam) {
+            gradcamHtml = `<div style="margin:18px 0;">
+                <h4 style="color:#1976d2; font-weight:700;">Disease Region Highlight (Grad-CAM)</h4>
+                <div style="display:inline-block; padding:10px; border-radius:15px; background:#e3f2fd; box-shadow:0px 4px 12px rgba(0,0,0,0.15);">
+                    <img src="${data.gradcam}" alt="Disease Heatmap" style="width:100%; max-width:300px; border-radius:12px; border:3px solid #1976d2; object-fit:contain;">
+                </div>
+            </div>`;
+        }
+
+        let weatherAdviceHtml = '';
+        if (data.weather_advice) {
+            weatherAdviceHtml = `<div style=\"margin:15px 0; padding:12px; background:#e3f2fd; border-radius:10px; color:#1565c0; font-size:16px;\">ðŸŒ¦ï¸ <b>Weather-based Suggestion:</b> ${data.weather_advice}</div>`;
+        }
+
+        resultBox.innerHTML = `
+            <div style="background: linear-gradient(135deg,#e8f5e9,#ffffff); padding:25px; border-radius:18px; box-shadow:0px 6px 18px rgba(0,0,0,0.15); animation: fadeIn 0.5s ease-in-out;">
+                <h3 style="color:#1b5e20; font-weight:800;">AI Prediction Result</h3>
+                ${top3Html}
+                <div style="margin:15px 0;">
+                    <span style="background:${statusColor}; color:white; padding:8px 18px; border-radius:20px; font-weight:bold; font-size:18px;">
+                        ${data.result || 'No result'}
+                    </span>
+                </div>
+
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0 14px 0;">
+                    <span style="background:${relInfo.color}; color:#fff; padding:7px 14px; border-radius:999px; font-weight:900; font-size:14px;">
+                        ${relInfo.label}
+                    </span>
+                    <span style="background:${urgInfo.color}; color:#fff; padding:7px 14px; border-radius:999px; font-weight:900; font-size:14px;">
+                        ${urgInfo.label}
+                    </span>
+                </div>
+                ${gradcamHtml}
+                ${weatherAdviceHtml}
+                <div style="font-size:16px; margin-bottom:15px; padding:10px; background:#fff; border-radius:10px; border-left: 5px solid ${statusColor}; text-align:left;">
+                    <b>Description:</b> ${data.description || 'N/A'}
+                </div>
+
+                <p style="font-size:18px;"> Confidence: <b>${data.confidence !== undefined ? data.confidence.toFixed(2) : 'N/A'}%</b></p>
+                <div style="background:#ddd; height:12px; border-radius:10px; margin-bottom:15px;">
+                    <div style="width:${data.confidence !== undefined ? data.confidence : 70}%; background:#4caf50; height:12px; border-radius:10px;"></div>
+                </div>
+
+                <div style="margin-top:12px; padding:14px; background:#ffffff; border-radius:14px; border:1px solid #e0e0e0; text-align:left;">
+                    <div style="font-weight:900; color:#263238; font-size:16px; margin-bottom:10px;">Confidence Graph (Top 3)</div>
+                    <div style="position:relative; width:100%; min-height:220px;">
+                        <canvas id="confidenceChart" height="210"></canvas>
+                    </div>
+                </div>
+
+                ${productsHtml}
+
+                <div style="margin-top:15px; padding:15px; background:#fff3e0; border-radius:10px; text-align:left;">
+                    <p style="margin:0; color:#e65100; font-size:16px;"> <b>Remedy:</b> ${data.remedy || 'Not Available'}</p>
+                </div>
+
+                ${!isHealthy ? `
+                <div style="margin-top:20px;">
+                    <a href="${buyLink}" target="_blank" class="btn" style="font-weight:bold; color:#fff; background:#f57c00; font-size:18px; padding:12px; width:100%; max-width:300px; border-radius:10px;">
+                            🛒 Buy Treatment
+                    </a>
+                </div>
+                ` : ''}
+            </div>
+        `;
+
+        lastPrediction = {
+            result: data.result,
+            confidence: confVal,
+            remedy: data.remedy,
+            description: data.description,
+            top3: Array.isArray(data.top3) ? data.top3 : [],
+        };
+        setAssistantVisible(true);
+        if (vaHint) vaHint.textContent = "Tip: press Start Mic and ask your question.";
+        renderConfidenceChart(lastPrediction.top3);
+    })
+    .catch(err => {
+        loader.style.display = "none";
+        resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;">âŒ Prediction Failed. Please check the backend.</div>`;
+    });
+};
+</script>
+{% endblock %}

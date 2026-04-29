@@ -1,0 +1,128 @@
+﻿<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Crop Disease AI System</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
+
+    <!-- PWA -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#1b5e20">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* SAME GRADIENT FOR HEADER & FOOTER */
+        .top-bar, .main-footer {
+            background: linear-gradient(90deg, #1b5e20, #2e7d32);
+            color: white;
+        }
+
+        .top-bar {
+            padding: 12px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff !important;
+            letter-spacing: 1px;
+        }
+
+        .main-footer {
+            margin-top: 50px;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .content-area {
+            min-height: 85vh;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <nav class="top-bar">
+        <div class="container">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                🌿 <span data-i18n="brand">Crop Disease AI Detection System</span>
+            </a>
+
+            <div style="display:flex; gap:10px; align-items:center;">
+                <a href="{{ url_for('index') }}"
+                   class="btn btn-sm"
+                   style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:700;"><span data-i18n="nav_home">Home</span></a>
+                <a href="{{ url_for('history') }}"
+                   class="btn btn-sm"
+                   style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:700;"><span data-i18n="nav_history">History</span></a>
+                            <select id="langSelect" class="form-select form-select-sm"
+                        style="width:auto; background:rgba(255,255,255,0.14); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:800;">
+                    <option value="en" style="color:#000;">EN</option>
+                    <option value="hi" style="color:#000;">HI</option>
+                    <option value="mr" style="color:#000;">MR</option>
+                    <option value="kn" style="color:#000;">KN</option>
+                </select></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="content-area">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- FOOTER -->
+    <div class="main-footer">
+        Â© 2026 | AI Based Crop Disease Detection System | Deep Learning Project
+</div>
+
+    <script>
+        // Register service worker for offline support (PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('{{ url_for("static", filename="service-worker.js") }}');
+            });
+        }
+    </script>
+
+    <script>
+        // Multilingual UI (basic)
+        (function() {
+            if (!window.I18N) return;
+            const el = document.getElementById('langSelect');
+            if (!el) return;
+            el.value = window.I18N.getLang();
+            el.addEventListener('change', function() {
+                window.I18N.setLang(el.value);
+            });
+            window.I18N.applyTranslations();
+        })();
+    </script>
+
+</body>
+
+</html>
+

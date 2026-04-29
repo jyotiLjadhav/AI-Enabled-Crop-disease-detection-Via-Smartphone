@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Allows http://192.168.x.x:5000 during local testing. -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+

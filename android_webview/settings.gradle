@@ -1,0 +1,3 @@
+rootProject.name = "PlantDetectWebView"
+include ":app"
+
