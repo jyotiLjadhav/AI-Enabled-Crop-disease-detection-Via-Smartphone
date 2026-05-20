@@ -53,6 +53,7 @@ The solution helps farmers identify diseases quickly and take preventive actions
 
 ## 📌 Features
 
+<<<<<<< HEAD
 ✅ Upload plant leaf images from gallery  
 ✅ Capture images directly using smartphone camera  
 ✅ AI-powered disease prediction using CNN  
@@ -213,3 +214,6 @@ GitHub: https://github.com/jyotiLjadhav
 # ⭐ Support
 
 If you like this project, give it a ⭐ on GitHub!
+=======
+`python test_predict.py`
+>>>>>>> 6aea3b926969c7e4d444c0b5b18795ce7e76f088
