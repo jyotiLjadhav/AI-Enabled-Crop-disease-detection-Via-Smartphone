@@ -59,8 +59,7 @@ The solution helps farmers identify diseases quickly and take preventive actions
 ✅ AI-powered disease prediction using CNN  
 ✅ Weather-based farming suggestions  
 ✅ Grad-CAM heatmap visualization (Explainable AI)  
-✅ Progressive Web App (PWA) support  
-✅ Offline UI support  
+✅ Progressive Web App (PWA) support   
 ✅ Windows EXE generation using PyInstaller  
 ✅ Android APK support using WebView wrapper  
 
@@ -176,11 +175,6 @@ powershell -ExecutionPolicy Bypass -File packaging/build_exe.ps1
 
 ---
 
-# 📲 Android APK Build
-
-1. Open `android_webview/` in Android Studio  
-2. Update Flask server URL  
-3. Build APK  
 
 ---
 
