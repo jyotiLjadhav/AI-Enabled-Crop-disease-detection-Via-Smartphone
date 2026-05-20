@@ -1,0 +1,210 @@
+{% extends "import.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container py-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="display-5 fw-bold text-success mb-0">Analytics Hub</h1>
+            <p class="text-muted">Master Control & Strategic Insights for AgriGuard AI</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('admin_export_csv') }}" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Full CSV Report
+            </a>
+        </div>
+    </div>
+
+    <!-- ANALYTICS WIDGETS -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm rounded-4 p-4" style="background: #fffbe6; border: 1px solid #ffe58f !important;">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="fw-bold mb-1 text-warning-emphasis">📢 Global Expert Advisory</h5>
+                        <p class="text-muted small mb-0">Post a message that will appear on every farmer's home page instantly.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="{{ url_for('admin_update_broadcast') }}" method="POST" class="d-flex gap-2">
+                            <input type="text" name="broadcast_msg" class="form-control rounded-pill" value="{{ broadcast_msg }}" placeholder="Enter alert message...">
+                            <button type="submit" class="btn btn-warning rounded-pill px-4 fw-bold">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                <h5 class="fw-bold mb-4">Diagnostic Trends (30 Days)</h5>
+                <canvas id="trendsChart" height="250"></canvas>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                <h5 class="fw-bold mb-4">Disease Distribution</h5>
+                <canvas id="diseaseChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABBED INTERFACE WITH SEARCH -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+        <div class="card-header bg-white p-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <ul class="nav nav-pills" id="adminTabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active fw-bold" id="scans-tab" data-bs-toggle="tab" data-bs-target="#scans" type="button">Scans</button></li>
+                <li class="nav-item"><button class="nav-link fw-bold" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">Farmers</button></li>
+            </ul>
+            <div class="search-box">
+                <input type="text" id="adminSearch" class="form-control rounded-pill border-0 bg-light px-4" placeholder="Search data..." style="min-width: 300px;">
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="tab-content" id="adminTabsContent">
+                <!-- SCANS TABLE -->
+                <div class="tab-pane fade show active" id="scans" role="tabpanel">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="scansTable">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Date</th>
+                                    <th>Farmer</th>
+                                    <th>Disease</th>
+                                    <th>Confidence</th>
+                                    <th class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for scan in scans %}
+                                <tr>
+                                    <td class="ps-4 small text-muted">{{ scan.created_at[:16] }}</td>
+                                    <td class="fw-bold">{{ scan.username or 'Guest' }}</td>
+                                    <td>
+                                        <span class="badge {% if 'Healthy' in scan.disease %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %} border rounded-pill px-3">
+                                            {{ scan.disease }}
+                                        </span>
+                                    </td>
+                                    <td class="small">{{ (scan.confidence * 100)|round(1) }}%</td>
+                                    <td class="text-end pe-4">
+                                        <a href="{{ url_for('static', filename='uploads/' + scan.image_filename) }}" target="_blank" class="btn btn-sm btn-light rounded-pill px-3">View Image</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- USERS TABLE -->
+                <div class="tab-pane fade" id="users" role="tabpanel">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="usersTable">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th class="text-end pe-4">Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td class="ps-4 text-muted">#{{ user.id }}</td>
+                                    <td class="fw-bold">{{ user.username }}</td>
+                                    <td>{{ user.email or 'N/A' }}</td>
+                                    <td>
+                                        <span class="badge {% if user.is_admin %}bg-danger{% else %}bg-success{% endif %} rounded-pill px-3">
+                                            {{ 'Admin' if user.is_admin else 'Farmer' }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end pe-4 small text-muted">{{ user.created_at[:10] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Trends Chart
+    new Chart(document.getElementById('trendsChart'), {
+        type: 'line',
+        data: {
+            labels: {{ trend_labels|tojson }},
+            datasets: [{
+                label: 'Diagnostic Scans',
+                data: {{ trend_values|tojson }},
+                borderColor: '#2e7d32',
+                backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    // Disease Distribution Chart
+    new Chart(document.getElementById('diseaseChart'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ disease_labels|tojson }},
+            datasets: [{
+                data: {{ disease_values|tojson }},
+                backgroundColor: [
+                    '#2e7d32', // Deep Green
+                    '#c62828', // Bright Red
+                    '#1565c0', // Royal Blue
+                    '#ef6c00', // Strong Orange
+                    '#6a1b9a', // Deep Purple
+                    '#00838f', // Cyan
+                    '#ad1457', // Pink/Magenta
+                    '#f9a825'  // Yellow
+                ],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: { 
+            responsive: true, 
+            plugins: { 
+                legend: { 
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: { weight: 'bold' }
+                    }
+                } 
+            },
+            cutout: '65%'
+        }
+    });
+
+    // Simple Table Search
+    document.getElementById('adminSearch').addEventListener('keyup', function() {
+        let value = this.value.toLowerCase();
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(value) ? '' : 'none';
+        });
+    });
+</script>
+
+<style>
+    .nav-pills .nav-link.active { background-color: #1b5e20 !important; }
+    .nav-pills .nav-link { color: #6c757d; }
+    [data-theme="dark"] .card { background: #1e293b; border: 1px solid #334155 !important; }
+    [data-theme="dark"] .bg-light { background: #334155 !important; }
+    [data-theme="dark"] .table { color: #f1f5f9; border-color: #334155; }
+    [data-theme="dark"] .nav-link { color: #94a3b8; }
+</style>
+{% endblock %}

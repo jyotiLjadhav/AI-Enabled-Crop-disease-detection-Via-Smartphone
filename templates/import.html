@@ -1,4 +1,4 @@
-﻿<html lang="en">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -24,14 +24,35 @@
     <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 
     <style>
+        :root {
+            --bg-color: #f4f7fb;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --nav-bg: linear-gradient(90deg, #1b5e20, #2e7d32);
+            --footer-bg: linear-gradient(90deg, #1b5e20, #2e7d32);
+            --border-color: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --nav-bg: linear-gradient(90deg, #0a2e0c, #1b5e20);
+            --footer-bg: linear-gradient(90deg, #0a2e0c, #1b5e20);
+            --border-color: #333333;
+        }
+
         body {
-            background: #f4f7fb;
+            background: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Segoe UI', sans-serif;
+            transition: background 0.3s, color 0.3s;
         }
 
         /* SAME GRADIENT FOR HEADER & FOOTER */
-        .top-bar, .main-footer {
-            background: linear-gradient(90deg, #1b5e20, #2e7d32);
+        .top-bar,
+        .main-footer {
+            background: var(--nav-bg);
             color: white;
         }
 
@@ -56,6 +77,117 @@
         .content-area {
             min-height: 85vh;
         }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(20deg);
+        }
+
+        /* AGRI-BOT FLOATING UI */
+        .chat-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .chat-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1b5e20, #4caf50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+        }
+
+        .chat-header {
+            background: var(--nav-bg);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .msg-bot {
+            align-self: flex-start;
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-color);
+            border-bottom-left-radius: 2px;
+        }
+
+        [data-theme="dark"] .msg-bot {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .msg-user {
+            align-self: flex-end;
+            background: #2e7d32;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
     </style>
 
 </head>
@@ -64,65 +196,872 @@
 
     <!-- HEADER -->
     <nav class="top-bar">
-        <div class="container">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                🌿 <span data-i18n="brand">Crop Disease AI Detection System</span>
-            </a>
+        <div class="container-fluid px-2">
+            <div class="navbar-wrapper">
 
-            <div style="display:flex; gap:10px; align-items:center;">
-                <a href="{{ url_for('index') }}"
-                   class="btn btn-sm"
-                   style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:700;"><span data-i18n="nav_home">Home</span></a>
-                <a href="{{ url_for('history') }}"
-                   class="btn btn-sm"
-                   style="background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:700;"><span data-i18n="nav_history">History</span></a>
-                            <select id="langSelect" class="form-select form-select-sm"
-                        style="width:auto; background:rgba(255,255,255,0.14); color:#fff; border:1px solid rgba(255,255,255,0.22); font-weight:800;">
-                    <option value="en" style="color:#000;">EN</option>
-                    <option value="hi" style="color:#000;">HI</option>
-                    <option value="mr" style="color:#000;">MR</option>
-                    <option value="kn" style="color:#000;">KN</option>
-                </select></div>
+                <!-- LEFT: BRAND -->
+                <a class="navbar-brand" href="{{ url_for('index') }}">
+                    <span style="font-size:24px;">🌿</span>
+                    <span data-i18n="brand" class="brand-text">AgriGuard AI</span>
+                </a>
+
+                <!-- CENTER: NAV LINKS (DESKTOP) -->
+                <div class="nav-links-desktop">
+                    <a href="{{ url_for('index') }}" class="btn btn-sm nav-link-custom">
+                        <span data-i18n="nav_home">Home</span>
+                    </a>
+                    <a href="{{ url_for('detect') }}" class="btn btn-sm nav-link-custom">
+                        <span>Detect</span>
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-sm nav-link-custom">
+                        <span data-i18n="nav_about">About</span>
+                    </a>
+                </div>
+
+                <!-- RIGHT: CONTROLS & PROFILE -->
+                <div class="nav-right-desktop">
+                    <!-- System Toggles -->
+                    <div class="nav-controls">
+                        <select id="langSelect" class="form-select form-select-sm border-0"
+                            style="width:auto; background:transparent; color:#fff; font-weight:800; cursor:pointer;">
+                            <option value="en" style="color:#000;">EN</option>
+                            <option value="hi" style="color:#000;">HI</option>
+                            <option value="mr" style="color:#000;">MR</option>
+                            <option value="kn" style="color:#000;">KN</option>
+                        </select>
+                        <div id="themeToggle" class="theme-toggle">
+                            <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></svg>
+                        </div>
+                    </div>
+
+                    <!-- User Auth -->
+                    {% if current_user.is_authenticated %}
+                    <div class="dropdown" id="userMenuContainer">
+                        <button id="userMenuBtn" class="user-profile-pill border-0" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                            <span>{{ current_user.username }}</span>
+                        </button>
+                        <ul id="userMenuDropdown" class="dropdown-menu-custom shadow-lg p-2">
+                            <li>
+                                <h6 class="dropdown-header">Farmer Account</h6>
+                            </li>
+                            <li><a class="dropdown-item-custom" href="{{ url_for('history') }}">📊 My History</a></li>
+
+                            {% if current_user.is_admin %}
+                            <li>
+                                <hr style="margin:5px 0; opacity:0.1;">
+                            </li>
+                            <li>
+                                <h6 class="dropdown-header text-danger">System Control</h6>
+                            </li>
+                            <li><a class="dropdown-item-custom" href="{{ url_for('admin_dashboard') }}"
+                                    style="color: #c62828;">🛡️ Admin Dashboard</a></li>
+                            {% endif %}
+
+                            <li>
+                                <hr style="margin:5px 0; opacity:0.1;">
+                            </li>
+                            <li><a class="dropdown-item-custom text-danger" href="{{ url_for('logout') }}">🚪 Logout
+                                    Account</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="nav-auth-desktop">
+                        <a href="{{ url_for('login') }}" class="btn btn-sm nav-btn-login">Login</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-sm nav-btn-register">Register</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- HAMBURGER MENU (MOBILE) -->
+                <button id="mobileMenuBtn" class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </nav>
 
+    <!-- MOBILE MENU (HIDDEN BY DEFAULT) -->
+    <div id="mobileMenuPanel" class="mobile-menu-panel">
+        <div class="mobile-menu-content">
+            <!-- Mobile Nav Links -->
+            <a href="{{ url_for('index') }}" class="mobile-nav-link">
+                <span data-i18n="nav_home">Home</span>
+            </a>
+            <a href="{{ url_for('detect') }}" class="mobile-nav-link">
+                <span>Detect</span>
+            </a>
+            <a href="{{ url_for('about') }}" class="mobile-nav-link">
+                <span data-i18n="nav_about">About</span>
+            </a>
+
+            <hr style="margin:12px 0; opacity:0.2;">
+
+            <!-- Mobile Controls -->
+            <div class="mobile-nav-section">
+                <label style="font-size:12px; font-weight:800; text-transform:uppercase; opacity:0.6;">Language</label>
+                <select id="langSelectMobile" class="form-select form-select-sm border-0 mt-2"
+                    style="background:rgba(0,0,0,0.1); color:#fff; font-weight:800;">
+                    <option value="en" style="color:#000;">English</option>
+                    <option value="hi" style="color:#000;">Hindi</option>
+                    <option value="mr" style="color:#000;">Marathi</option>
+                    <option value="kn" style="color:#000;">Kannada</option>
+                </select>
+            </div>
+
+            <div class="mobile-nav-section" style="margin-top:12px;">
+                <button id="themeToggleMobile" class="btn btn-sm w-100" 
+                    style="background:rgba(0,0,0,0.1); color:#fff; font-weight:800; border-radius:10px;">
+                    🌙 Toggle Dark Mode
+                </button>
+            </div>
+
+            <hr style="margin:12px 0; opacity:0.2;">
+
+            <!-- Mobile Auth -->
+            {% if current_user.is_authenticated %}
+            <div class="mobile-nav-section">
+                <div style="font-size:12px; font-weight:800; text-transform:uppercase; opacity:0.6;">Account</div>
+                <a href="{{ url_for('history') }}" class="mobile-nav-link-secondary">📊 My History</a>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="mobile-nav-link-secondary">🛡️ Admin Dashboard</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="mobile-nav-link-secondary" style="color:#ff5252;">🚪 Logout</a>
+            </div>
+            {% else %}
+            <div class="mobile-nav-section">
+                <a href="{{ url_for('login') }}" class="btn btn-sm w-100 mb-2" 
+                    style="background:rgba(255,255,255,0.2); color:#fff; font-weight:700; border-radius:8px;">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-sm w-100" 
+                    style="background:white; color:#1b5e20; font-weight:800; border-radius:8px;">Register</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        /* NAVBAR WRAPPER */
+        .navbar-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            padding: 12px 0;
+        }
+
+        /* BRAND STYLING */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff !important;
+            letter-spacing: 1px;
+            min-width: fit-content;
+        }
+
+        .brand-text {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: -0.5px;
+            color: white;
+        }
+
+        /* DESKTOP NAV LINKS */
+        .nav-links-desktop {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* RIGHT SIDE CONTROLS */
+        .nav-right-desktop {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
+        .nav-auth-desktop {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn-login {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 6px 15px;
+        }
+
+        .nav-btn-register {
+            background: white;
+            color: #1b5e20;
+            font-weight: 800;
+            border-radius: 20px;
+            padding: 6px 15px;
+        }
+
+        /* HAMBURGER BUTTON (HIDDEN BY DEFAULT) */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-10px);
+        }
+
+        /* MOBILE MENU PANEL */
+        .mobile-menu-panel {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            color: white;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            z-index: 999;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .mobile-menu-panel.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .mobile-nav-link-secondary {
+            display: block;
+            padding: 10px 15px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .mobile-nav-link-secondary:hover {
+            padding-left: 20px;
+            color: white;
+        }
+
+        .mobile-nav-section {
+            padding: 12px 0;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 768px) {
+            .navbar-wrapper {
+                gap: 10px;
+            }
+
+            /* Hide desktop elements */
+            .nav-links-desktop {
+                display: none;
+            }
+
+            .nav-right-desktop {
+                display: none;
+            }
+
+            /* Show hamburger button */
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .brand-text {
+                display: none;
+            }
+
+            .navbar-brand {
+                gap: 5px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 16px;
+            }
+        }
+
+        }
+
+        .nav-link-custom:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu-custom {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            min-width: 180px;
+            z-index: 99999;
+            list-style: none;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .dropdown-item-custom {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .dropdown-item-custom:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .dropdown-item-custom:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #78909c;
+            padding: 5px 12px;
+        }
+    </style>
+
+    <script>
+        // USER MENU TOGGLE
+        document.getElementById('userMenuBtn')?.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var menu = document.getElementById('userMenuDropdown');
+            menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+        });
+        document.addEventListener('click', function () {
+            var menu = document.getElementById('userMenuDropdown');
+            if (menu) menu.style.display = 'none';
+        });
+
+        // MOBILE MENU TOGGLE
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuPanel = document.getElementById('mobileMenuPanel');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                mobileMenuBtn.classList.toggle('active');
+                mobileMenuPanel.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-link, .mobile-nav-link-secondary').forEach(link => {
+            link.addEventListener('click', function () {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenuPanel.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.mobile-menu-btn') && !e.target.closest('.mobile-menu-panel')) {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenuPanel.classList.remove('active');
+            }
+        });
+
+        // Sync language selection between desktop and mobile
+        const langSelectDesktop = document.getElementById('langSelect');
+        const langSelectMobile = document.getElementById('langSelectMobile');
+
+        if (langSelectDesktop && langSelectMobile) {
+            langSelectDesktop.addEventListener('change', function () {
+                langSelectMobile.value = this.value;
+            });
+            langSelectMobile.addEventListener('change', function () {
+                langSelectDesktop.value = this.value;
+            });
+        }
+
+        // Sync theme toggle between desktop and mobile
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
+        if (themeToggleMobile) {
+            themeToggleMobile.addEventListener('click', function () {
+                const themeToggle = document.getElementById('themeToggle');
+                themeToggle.click();
+            });
+        }
+    </script>
+
     <!-- MAIN CONTENT -->
     <div class="content-area">
+        <div class="container mt-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert"
+                style="border-radius: 12px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
         {% block content %}
         {% endblock %}
     </div>
 
     <!-- FOOTER -->
     <div class="main-footer">
-        Â© 2026 | AI Based Crop Disease Detection System | Deep Learning Project
-</div>
+        &copy; 2026 | AI Based Crop Disease Detection System | Deep Learning Project
+    </div>
 
     <script>
         // Register service worker for offline support (PWA)
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 navigator.serviceWorker.register('{{ url_for("static", filename="service-worker.js") }}');
             });
         }
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const sunIcon = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22">';
+        const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z">';
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeIcon.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
+            localStorage.setItem('theme', theme);
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Like Button Logic
+        const likeBtn = document.getElementById('likeBtn');
+        const likeIcon = document.getElementById('likeIcon');
+
+        function setLike(isLiked) {
+            if (isLiked) {
+                likeIcon.style.fill = "#ff4d4d";
+                likeIcon.style.stroke = "#ff4d4d";
+                likeBtn.style.transform = "scale(1.1)";
+            } else {
+                likeIcon.style.fill = "none";
+                likeIcon.style.stroke = "white";
+                likeBtn.style.transform = "scale(1)";
+            }
+            localStorage.setItem('liked', isLiked);
+        }
+
+        const isLiked = localStorage.getItem('liked') === 'true';
+        setLike(isLiked);
+
+        likeBtn.addEventListener('click', () => {
+            const currentLiked = localStorage.getItem('liked') === 'true';
+            setLike(!currentLiked);
+        });
     </script>
 
     <script>
-        // Multilingual UI (basic)
-        (function() {
-            if (!window.I18N) return;
-            const el = document.getElementById('langSelect');
-            if (!el) return;
-            el.value = window.I18N.getLang();
-            el.addEventListener('change', function() {
-                window.I18N.setLang(el.value);
+        const translations = {
+            en: {
+                nav_home: "Home", nav_history: "History", nav_map: "Map", nav_about: "About",
+                brand: "Crop Disease AI Detection System",
+                hero_title: "AgriGuard AI",
+                hero_subtitle: "AI-Powered Crop Disease Detection",
+                about_title: "About AgriGuard AI",
+                about_subtitle: "An advanced Deep Learning system for precision agriculture.",
+                btn_choose: "Choose File",
+                btn_camera: "Open Camera",
+                btn_predict: "Predict Disease",
+                weather_title: "Weather-Based Suggestions",
+                weather_detect: "Detect",
+                weather_check: "Check",
+                analysis_report: "AI Diagnostic Report",
+                consensus_title: "Multi-Model Consensus",
+                disease_profile: "Disease Profile",
+                general_remedy: "General Remedy",
+                marketplace_title: "Recommended Products & Treatment",
+                btn_listen: "Listen",
+                btn_pdf: "PDF Report",
+                bot_welcome: "Hello! I'm your AI Agriculture assistant. How can I help you today?",
+                bot_placeholder: "Type your message...",
+                footer_text: "© 2026 | AI Based Crop Disease Detection System | Deep Learning Project"
+            },
+            kn: {
+                nav_home: "ಮುಖಪುಟ", nav_history: "ಇತಿಹಾಸ", nav_map: "ನಕ್ಷೆ", nav_about: "ಬಗ್ಗೆ",
+                brand: "ಬೆಳೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ",
+                hero_title: "ಅಗ್ರಿಗಾರ್ಡ್ ಎಐ",
+                hero_subtitle: "AI-ಚಾಲಿತ ಬೆಳೆ ರೋಗ ಪತ್ತೆ",
+                about_title: "ಅಗ್ರಿಗಾರ್ಡ್ ಬಗ್ಗೆ",
+                about_subtitle: "ನಿಖರ ಕೃಷಿಗಾಗಿ ಸುಧಾರಿತ ಆಳವಾದ ಕಲಿಕೆಯ ವ್ಯವಸ್ಥೆ.",
+                btn_choose: "ಚಿತ್ರ ಆರಿಸಿ",
+                btn_camera: "ಕ್ಯಾಮೆರಾ ಬಳಸಿ",
+                btn_predict: "ರೋಗ ಪತ್ತೆ ಹಚ್ಚಿ",
+                weather_title: "ಹವಾಮಾನ ಆಧಾರಿತ ಸಲಹೆಗಳು",
+                weather_detect: "ಪತ್ತೆ ಹಚ್ಚಿ",
+                weather_check: "ಪರೀಕ್ಷಿಸಿ",
+                analysis_report: "ಎಐ ರೋಗನಿರ್ಣಯ ವರದಿ",
+                consensus_title: "ಮಾದರಿ ಹೋಲಿಕೆ",
+                disease_profile: "ರೋಗದ ಮಾಹಿತಿ",
+                general_remedy: "ಸಾಮಾನ್ಯ ಚಿಕಿತ್ಸೆ",
+                marketplace_title: "ಶಿಫಾರಸು ಮಾಡಿದ ಉತ್ಪನ್ನಗಳು",
+                btn_listen: "ಕೇಳಿ",
+                btn_pdf: "ವರದಿ",
+                bot_welcome: "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಎಐ ಕೃಷಿ ಸಹಾಯಕ. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?",
+                bot_placeholder: "ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ಟೈಪ್ ಮಾಡಿ...",
+                footer_text: "© 2026 | ಎಐ ಆಧಾರಿತ ಬೆಳೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ"
+            },
+            hi: {
+                nav_home: "होम", nav_history: "इतिहास", nav_map: "नक्शा", nav_about: "जानकारी",
+                brand: "फसल रोग पहचान प्रणाली",
+                hero_title: "एग्रीगार्ड एआई",
+                hero_subtitle: "AI-आधारित फसल रोग पहचान",
+                about_title: "एग्रीगार्ड के बारे में",
+                about_subtitle: "सटीक कृषि के लिए एक उन्नत डीप लर्निंग सिस्टम।",
+                btn_choose: "फ़ाइल चुनें",
+                btn_camera: "कैमरा खोलें",
+                btn_predict: "रोग पहचानें",
+                weather_title: "मौसम आधारित सुझाव",
+                weather_detect: "पता लगाएं",
+                weather_check: "जांचें",
+                analysis_report: "एआई नैदानिक रिपोर्ट",
+                consensus_title: "मॉडल आम सहमति",
+                disease_profile: "रोग विवरण",
+                general_remedy: "सामान्य उपचार",
+                marketplace_title: "अनुशंसित उत्पाद",
+                btn_listen: "सुनें",
+                btn_pdf: "रिपोर्ट",
+                bot_welcome: "नमस्ते! मैं आपका एआई कृषि सहायक हूं। मैं आपकी कैसे मदद कर सकता हूं?",
+                bot_placeholder: "अपना संदेश लिखें...",
+                footer_text: "© 2026 | एआई आधारित फसल रोग पहचान प्रणाली"
+            }
+        };
+
+        function applyLanguage(lang) {
+            localStorage.setItem('lang', lang);
+            const set = translations[lang] || translations.en;
+
+            // Apply to all [data-i18n] elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (set[key]) el.innerHTML = set[key];
             });
-            window.I18N.applyTranslations();
-        })();
+
+            // Specific UI adjustments
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) chatInput.placeholder = set.bot_placeholder || "Type your message...";
+
+            const footer = document.querySelector('.main-footer');
+            if (footer) footer.innerHTML = set.footer_text;
+        }
+
+        const langSelect = document.getElementById('langSelect');
+        langSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('lang') || 'en';
+            langSelect.value = savedLang;
+            applyLanguage(savedLang);
+        });
     </script>
 
+    <!-- FLOATING MAP TOGGLE -->
+    <a href="{{ url_for('map_view') }}" id="mapFloatingToggle"
+        style="position: fixed; bottom: 100px; right: 25px; width: 60px; height: 60px; background: linear-gradient(135deg, #1976d2, #0097a7); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration:none; border: 2px solid rgba(255,255,255,0.2);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="3" />
+        </svg>
+    </a>
+
+    <!-- FLOATING CHATBOT -->
+    <div id="agriBotToggle"
+        style="position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: linear-gradient(135deg, #1b5e20, #4caf50); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 1000; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid rgba(255,255,255,0.2);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+    </div>
+
+    <div id="agriChatWindow"
+        style="position: fixed; bottom: 175px; right: 25px; width: 350px; max-width: calc(100vw - 50px); height: 500px; background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); z-index: 1000; display: none; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); animation: slideUp 0.4s ease-out;">
+        <!-- Chat Header -->
+        <div
+            style="background: linear-gradient(90deg, #1b5e20, #2e7d32); padding: 20px; color: white; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div
+                    style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div>
+                    <div style="font-weight: 800; font-size: 16px;">Agri-Bot</div>
+                    <div style="font-size: 11px; opacity: 0.8;">Online | AI Assistant</div>
+                </div>
+            </div>
+            <div id="closeChat" style="cursor: pointer; opacity: 0.7; transition: opacity 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chatMessages"
+            style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth;">
+            <div
+                style="background: rgba(0,0,0,0.05); padding: 12px 16px; border-radius: 15px 15px 15px 0; max-width: 85%; font-size: 14px; color: var(--text-color); line-height: 1.4; border: 1px solid var(--border-color);">
+                Hello! I'm your AI Agriculture assistant. How can I help you today?
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div
+            style="padding: 15px; background: var(--card-bg); border-top: 1px solid var(--border-color); display: flex; gap: 10px;">
+            <input type="text" id="chatInput" placeholder="Type your message..."
+                style="flex: 1; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); padding: 12px 15px; border-radius: 12px; font-size: 14px; outline: none; color: var(--text-color);">
+            <button id="sendChatMessage"
+                style="background: var(--nav-bg); border: none; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #agriBotToggle:hover,
+        #mapFloatingToggle:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        #chatMessages::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #chatMessages::-webkit-scrollbar-thumb {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+    </style>
+
+    <script>
+        const botToggle = document.getElementById('agriBotToggle');
+        const chatWin = document.getElementById('agriChatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendChatMessage');
+        const chatMessages = document.getElementById('chatMessages');
+
+        // Toggle Window
+        botToggle.onclick = () => {
+            const isVisible = chatWin.style.display === 'flex';
+            chatWin.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) chatInput.focus();
+        };
+
+        closeChat.onclick = () => chatWin.style.display = 'none';
+
+        function addBotMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.style.marginBottom = '12px';
+            div.style.display = 'flex';
+            div.style.flexDirection = 'column';
+            div.style.alignItems = isUser ? 'flex-end' : 'flex-start';
+
+            const bubble = document.createElement('div');
+            bubble.style.padding = '10px 15px';
+            bubble.style.borderRadius = '15px';
+            bubble.style.maxWidth = '85%';
+            bubble.style.fontSize = '14px';
+            bubble.style.lineHeight = '1.4';
+
+            if (isUser) {
+                bubble.style.background = '#1b5e20';
+                bubble.style.color = 'white';
+                bubble.style.borderBottomRightRadius = '2px';
+                bubble.innerText = text;
+            } else {
+                bubble.style.background = 'rgba(0,0,0,0.05)';
+                bubble.style.color = 'var(--text-color)';
+                bubble.style.borderBottomLeftRadius = '2px';
+                bubble.style.border = '1px solid var(--border-color)';
+                // Initial empty text for typewriter effect
+                bubble.innerText = '';
+            }
+
+            div.appendChild(bubble);
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // --- ChatGPT Typewriter Effect (Fixed for Spaces) ---
+            if (!isUser) {
+                let i = 0;
+                const speed = 15; // Faster, smoother speed
+                function typeWriter() {
+                    if (i <= text.length) {
+                        bubble.textContent = text.slice(0, i);
+                        i++;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+                typeWriter();
+            }
+        }
+
+        async function handleBotSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            addBotMessage(text, true);
+            chatInput.value = '';
+
+            // Typing indicator (simplified)
+            const typing = document.createElement('div');
+            typing.id = 'bot-typing-indicator';
+            typing.style.fontSize = '12px';
+            typing.style.color = '#78909c';
+            typing.style.fontStyle = 'italic';
+            typing.style.marginBottom = '10px';
+            typing.innerText = 'Agri-Bot is typing...';
+            chatMessages.appendChild(typing);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const res = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await res.json();
+                const indicator = document.getElementById('bot-typing-indicator');
+                if (indicator) indicator.remove();
+
+                // Call addBotMessage which now has the typewriter effect
+                addBotMessage(data.reply || "I'm not sure how to answer that.", false);
+            } catch (err) {
+                const indicator = document.getElementById('bot-typing-indicator');
+                if (indicator) indicator.remove();
+                addBotMessage("Connection error. The AI brain is offline.", false);
+            }
+        }
+
+        sendBtn.onclick = handleBotSend;
+        chatInput.onkeydown = (e) => { if (e.key === 'Enter') handleBotSend(); };
+    </script>
 </body>
 
 </html>
-

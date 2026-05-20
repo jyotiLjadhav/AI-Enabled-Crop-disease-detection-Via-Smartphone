@@ -1,0 +1,179 @@
+{% extends "import.html" %}
+{% block content %}
+
+<div class="about-page" style="min-height: 100vh; background: var(--bg-color); color: var(--text-color); font-family: 'Inter', 'Segoe UI', sans-serif; padding: 40px 20px; transition: all 0.3s;">
+    <div class="container">
+        
+        <!-- Main Title -->
+        <h1 style="font-weight: 800; font-size: 2.5rem; margin-bottom: 40px; color: var(--text-color); letter-spacing: -1px;">About This Project</h1>
+
+        <div class="row g-4">
+            <!-- Project Overview Card -->
+            <div class="col-md-7">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #4caf50; opacity: 0.8;">
+                        <i class="fas fa-info-circle"></i>
+                        <span style="text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1.5px;">Project Overview</span>
+                    </div>
+                    <p style="font-size: 15px; line-height: 1.6; opacity: 0.9; margin-bottom: 20px;">
+                        This project is a <b>Samsung Innovation Campus Capstone</b> project focused on using AI and Deep Learning for smart agriculture.
+                    </p>
+                    <p style="font-size: 15px; line-height: 1.6; opacity: 0.9; margin-bottom: 20px;">
+                        The system uses a <b>Convolutional Neural Network (CNN)</b> trained on the Kaggle Plant Disease dataset to detect diseases from smartphone leaf images.
+                    </p>
+                    <p style="font-size: 15px; line-height: 1.6; opacity: 0.9; margin-bottom: 25px;">
+                        Key features include <b>Grad-CAM explainability</b>, prediction history, and a user-friendly web interface designed for farmers.
+                    </p>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-sm theme-btn" style="background: rgba(128,128,128,0.1); color: var(--text-color); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;">
+                            <i class="fab fa-github me-2"></i> GitHub
+                        </button>
+                        <button class="btn btn-sm theme-btn" style="background: rgba(128,128,128,0.1); color: var(--text-color); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;">
+                            <i class="fas fa-play-circle me-2"></i> Demo Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Developer Card -->
+            <div class="col-md-5">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px; color: #4caf50; opacity: 0.8;">
+                        <i class="fas fa-user"></i>
+                        <span style="text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1.5px;">Developer</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div style="width: 70px; height: 70px; background: #4caf50; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #fff; box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);">
+                            JJ
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; font-weight: 800; color: var(--text-color);">Jyoti Jadhav</h4>
+                            <div style="color: #78909c; font-size: 13px; margin-top: 4px;">USN: 2KE23CS405</div>
+                            <div style="color: #78909c; font-size: 13px;">Domain: AI/ML</div>
+                            <div style="margin-top: 10px; background: rgba(76, 175, 80, 0.15); color: #2e7d32; display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 700;">Samsung Innovation Campus</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <h2 style="font-weight: 800; font-size: 1.8rem; margin: 50px 0 30px; color: var(--text-color);">Technology Stack</h2>
+        <div class="row g-3">
+            <!-- Tech Items -->
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px; transition: 0.3s;">
+                    <div style="font-size: 24px;">🧠</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">CNN Model</div>
+                        <div style="color: #78909c; font-size: 11px;">TensorFlow & Keras model with 4 blocks.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 24px;">🌶️</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">Flask Backend</div>
+                        <div style="color: #78909c; font-size: 11px;">Python framework handling routes.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 24px;">🗃️</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">SQLite Database</div>
+                        <div style="color: #78909c; font-size: 11px;">Storing prediction history.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 24px;">🎨</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">Frontend</div>
+                        <div style="color: #78909c; font-size: 11px;">Modern UI with Vanilla CSS and JS.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 24px;">🔍</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">Grad-CAM XAI</div>
+                        <div style="color: #78909c; font-size: 11px;">Explainable AI for symptoms.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 24px;">🖼️</div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-color); font-size: 14px;">Image Processing</div>
+                        <div style="color: #78909c; font-size: 11px;">Preprocessing with NumPy.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CNN Architecture Diagram -->
+        <h2 style="font-weight: 800; font-size: 1.8rem; margin: 50px 0 30px; color: var(--text-color);">CNN Architecture</h2>
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; overflow-x: auto; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 800px;">
+                <div style="background: #1976d2; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Input<br>224x224x3</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #2e7d32; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Conv Block 1<br>32 filters</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #2e7d32; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Conv Block 2<br>64 filters</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #2e7d32; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Conv Block 3<br>128 filters</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #2e7d32; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Conv Block 4<br>256 filters</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #e65100; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Dense<br>512 units</div>
+                <div style="color: #78909c;">→</div>
+                <div style="background: #7b1fa2; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 11px; text-align: center; color: white;">Output<br>3 classes</div>
+            </div>
+        </div>
+
+        <!-- Model Performance -->
+        <h2 style="font-weight: 800; font-size: 1.8rem; margin: 50px 0 30px; color: var(--text-color);">Model Performance</h2>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 25px; text-align: center;">
+                    <div style="color: #4caf50; font-size: 2.2rem; font-weight: 900; margin-bottom: 5px;">~90%</div>
+                    <div style="color: #78909c; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Training Accuracy</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 25px; text-align: center;">
+                    <div style="color: #4caf50; font-size: 2.2rem; font-weight: 900; margin-bottom: 5px;">~88%</div>
+                    <div style="color: #78909c; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Validation Accuracy</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 25px; text-align: center;">
+                    <div style="color: var(--text-color); font-size: 2.2rem; font-weight: 900; margin-bottom: 5px;">3</div>
+                    <div style="color: #78909c; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Disease Classes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 15px; padding: 25px; text-align: center;">
+                    <div style="color: var(--text-color); font-size: 2.2rem; font-weight: 900; margin-bottom: 5px;"><2s</div>
+                    <div style="color: #78909c; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Detection Time</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .glass-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1) !important; }
+    div::-webkit-scrollbar { height: 6px; }
+    div::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+    [data-theme="dark"] div::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+</style>
+
+{% endblock %}

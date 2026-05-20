@@ -1,11 +1,11 @@
 {
-  "name": "Plant Disease Detection",
-  "short_name": "PlantDetect",
+  "name": "AgriGuard AI Detection",
+  "short_name": "AgriGuard",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1b5e20",
-  "description": "AI-powered plant disease detection for farmers.",
+  "description": "Professional AI-powered crop disease detection and monitoring system.",
   "icons": [
     {
       "src": "/static/icons/icon-192.png",

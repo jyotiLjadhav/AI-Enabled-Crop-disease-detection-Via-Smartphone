@@ -1,0 +1,242 @@
+Processing Grad-CAM for ca36b62e038a4d6788ed9f9f28cbc215_8b741acf9c3342ae.jpg -> gradcam_0c735dccc1174ae9b3af34cbc894e1ba.jpg
+2026-05-10 11:34:24.100594: Starting make_gradcam_heatmap for conv2d_1
+Error in make_gradcam_heatmap: Input 0 with name 'input_layer' of layer 'functional' is incompatible with the layer: expected shape=(None, 225, 225, 3), found shape=(1, 224, 224, 3)
+Image saved to static/uploads\gradcam_0c735dccc1174ae9b3af34cbc894e1ba.jpg: True
+Processing Grad-CAM for 2bdbac04501c4fa5a0581a41cf401a76_ddca2303c383d9b9.jpg -> gradcam_1c70c3fc6fd7491fb10502f4ab21f342.jpg
+2026-05-10 11:35:00.967209: Starting make_gradcam_heatmap for conv2d_1
+Error in make_gradcam_heatmap: Input 0 with name 'input_layer' of layer 'functional' is incompatible with the layer: expected shape=(None, 225, 225, 3), found shape=(1, 224, 224, 3)
+Image saved to static/uploads\gradcam_1c70c3fc6fd7491fb10502f4ab21f342.jpg: True
+Processing Grad-CAM for f30d694f4da247e5a5c8d95caf1c2ca0_OIP.jpg -> gradcam_572aed3bd20a45e5bdbf3d1f6e92fd65.jpg
+2026-05-10 11:35:13.730503: Starting make_gradcam_heatmap for conv2d_1
+Error in make_gradcam_heatmap: Input 0 with name 'input_layer' of layer 'functional' is incompatible with the layer: expected shape=(None, 225, 225, 3), found shape=(1, 224, 224, 3)
+Image saved to static/uploads\gradcam_572aed3bd20a45e5bdbf3d1f6e92fd65.jpg: True
+Processing Grad-CAM for edf4e77b97b94f45b5bd87bc4856d98d_8b741acf9c3342ae.jpg -> gradcam_e0f15bffc1204701bc955cef73ad38d5.jpg
+2026-05-10 11:42:45.345162: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_e0f15bffc1204701bc955cef73ad38d5.jpg: True
+Processing Grad-CAM for 145eca6d9a6945c5bbdb0a384db9f127_8b741acf9c3342ae.jpg -> gradcam_8ebcd82d591d41c38fc71e77dc798d63.jpg
+2026-05-10 12:16:33.812044: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_8ebcd82d591d41c38fc71e77dc798d63.jpg: True
+Processing Grad-CAM for 08ecd4c6c0ee4bc0b654ff6ee922741f_8b741acf9c3342ae.jpg -> gradcam_5f49f7967c174e77a77a32783ec7391d.jpg
+2026-05-10 12:39:42.293471: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_5f49f7967c174e77a77a32783ec7391d.jpg: True
+Processing Grad-CAM for 4be20236f3d94d48b4dd7d424e28ff72_9e99dd8a8dd46238.jpg -> gradcam_b5130ef7e6fb4a20a4313c14242fae78.jpg
+2026-05-10 12:44:09.825393: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_b5130ef7e6fb4a20a4313c14242fae78.jpg: True
+Processing Grad-CAM for 7f28b794d0c042b0b3f14e17512d886d_94b78d183adc3b43.jpg -> gradcam_d8df9ea3559140e7b9ffbc9031779e06.jpg
+2026-05-10 12:48:34.115149: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_d8df9ea3559140e7b9ffbc9031779e06.jpg: True
+Processing Grad-CAM for fe6c1b54633448d8ae7e70fd41a66d80_99a9ed6694933354.jpg -> gradcam_951e32b8fc634e45be1488c6468cebba.jpg
+2026-05-10 12:55:10.047774: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 9.153655992122367e-05
+Image saved to static/uploads\gradcam_951e32b8fc634e45be1488c6468cebba.jpg: True
+Processing Grad-CAM for 48350b4358554e9b8b86548c6ccb9e43_8b741acf9c3342ae.jpg -> gradcam_968eac54919e421fb89148ee3255e410.jpg
+2026-05-10 12:56:03.889543: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_968eac54919e421fb89148ee3255e410.jpg: True
+Processing Grad-CAM for 1336bce297fa4f0a823b6d5c701cb479_9e99dd8a8dd46238.jpg -> gradcam_b49560f8b3704772a13fca94e43793b9.jpg
+2026-05-10 12:58:00.155100: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_b49560f8b3704772a13fca94e43793b9.jpg: True
+Processing Grad-CAM for 472f54a2cdd34069a4f058130a90bfa4_plant_disease_detection_using_image_processing_cta_featured_image_824a8c88_bb66_4d51_9b78_44d8a861f22d_e2f398bd0a.jpg -> gradcam_c1a362f20b6f4d5ebdccc14944e2ab8d.jpg
+2026-05-10 13:03:14.485669: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 2.265120684470873e-15
+Image saved to static/uploads\gradcam_c1a362f20b6f4d5ebdccc14944e2ab8d.jpg: True
+Processing Grad-CAM for 5e042670043d439a941bf503519ed678_94b78d183adc3b43.jpg -> gradcam_c0263e51c8134cfea2fbc518db83bd96.jpg
+2026-05-10 13:15:42.202871: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_c0263e51c8134cfea2fbc518db83bd96.jpg: True
+Processing Grad-CAM for 6b379da86062488d99465ce1c00e19ef_94b78d183adc3b43.jpg -> gradcam_21a37e87eeab46d5be66dfa719103d47.jpg
+2026-05-10 13:32:05.617492: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_21a37e87eeab46d5be66dfa719103d47.jpg: True
+Processing Grad-CAM for b3d4a20d471a4af089bc3f96c080024c_94b78d183adc3b43.jpg -> gradcam_9aa60f93a5b54088b567cb5f4b324a43.jpg
+2026-05-10 13:34:01.873160: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_9aa60f93a5b54088b567cb5f4b324a43.jpg: True
+Processing Grad-CAM for cf18b01337c04a16a9a0212f076e2d8c_94b78d183adc3b43.jpg -> gradcam_b84caa38772043bfb0f0b77518e54c20.jpg
+2026-05-10 13:37:31.899945: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_b84caa38772043bfb0f0b77518e54c20.jpg: True
+Processing Grad-CAM for 6c99e58cec04484d86c9f29340420339_94b78d183adc3b43.jpg -> gradcam_4da9778ac9184b8fb6ce5c1e1343cfcf.jpg
+2026-05-10 13:48:55.836777: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_4da9778ac9184b8fb6ce5c1e1343cfcf.jpg: True
+Processing Grad-CAM for 4678cbb67e2b4ba495a280a26e697b8c_OIP.jpg -> gradcam_011eb2c5eadc4b738083a080d0c14f51.jpg
+2026-05-10 13:50:21.995242: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 1.1151284340371603e-08
+Image saved to static/uploads\gradcam_011eb2c5eadc4b738083a080d0c14f51.jpg: True
+Processing Grad-CAM for eb8c5e23485443049074b6206e6921bc_8b741acf9c3342ae.jpg -> gradcam_f87842ea3d6c488c96614c0c2efc6c6c.jpg
+2026-05-10 13:52:56.244945: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_f87842ea3d6c488c96614c0c2efc6c6c.jpg: True
+Processing Grad-CAM for 9cd91d7b96e841ff98dedbfe45628f42_ddca2303c383d9b9.jpg -> gradcam_d8dc86eb084c4e1ba114cf131de457f7.jpg
+2026-05-10 13:53:42.154507: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 1.3500433851731941e-05
+Image saved to static/uploads\gradcam_d8dc86eb084c4e1ba114cf131de457f7.jpg: True
+Processing Grad-CAM for 6b827f8c8f6a478f9fa6fd71d2383d98_9db192eba5fca420.jpg -> gradcam_2e2494b260af456680e08f4c75aeae85.jpg
+2026-05-10 13:53:58.130793: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.000142040807986632
+Image saved to static/uploads\gradcam_2e2494b260af456680e08f4c75aeae85.jpg: True
+Processing Grad-CAM for ad4eb2be9b4d47d1924a08066eed9744_94b78d183adc3b43.jpg -> gradcam_9b4abace4a5346ff869cca4df853d849.jpg
+2026-05-10 13:59:44.648768: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_9b4abace4a5346ff869cca4df853d849.jpg: True
+Processing Grad-CAM for 864e990722f84b879c19113112e9b6fd_94b78d183adc3b43.jpg -> gradcam_e6afbc3f3af54161aee8a249ca9c59ae.jpg
+2026-05-10 14:03:28.424055: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_e6afbc3f3af54161aee8a249ca9c59ae.jpg: True
+Processing Grad-CAM for 6e0aa5ee14f9446fa9d8f39c4e11c3e7_99a9ed6694933354.jpg -> gradcam_65acea8cee0e471e9aac1cb1697a09d9.jpg
+2026-05-10 15:04:06.468137: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 9.153655992122367e-05
+Image saved to static/uploads\gradcam_65acea8cee0e471e9aac1cb1697a09d9.jpg: True
+Processing Grad-CAM for 8cebbeaec476459c9f64e0652855670a_9e99dd8a8dd46238.jpg -> gradcam_439f1ebf80d14d159fb892f1727ae60f.jpg
+2026-05-10 15:10:48.573660: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_439f1ebf80d14d159fb892f1727ae60f.jpg: True
+Processing Grad-CAM for 204ae29c917143258aca2ab68077b8e2_OIP_5.webp -> gradcam_ccd3ee1e8d80438193b57b37dd2e3d50.jpg
+2026-05-10 15:12:23.920710: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.2848470254975837e-06
+Image saved to static/uploads\gradcam_ccd3ee1e8d80438193b57b37dd2e3d50.jpg: True
+Processing Grad-CAM for 7e8b7ad02eb84626b19aeecfa9816d3d_8b741acf9c3342ae.jpg -> gradcam_a089707cb93e44388a2f9f2c9f64e6a2.jpg
+2026-05-10 15:16:12.585399: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_a089707cb93e44388a2f9f2c9f64e6a2.jpg: True
+Processing Grad-CAM for fa1b8898579e4077bc12ecae4cf59bbe_8b43f83043fb417b.jpg -> gradcam_7cb6a61c6164438e83f281969bf516ae.jpg
+2026-05-10 15:16:23.285138: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00016041373601183295
+Image saved to static/uploads\gradcam_7cb6a61c6164438e83f281969bf516ae.jpg: True
+Processing Grad-CAM for 45f1eef5272a456a88a3b0c683d5758a_94b78d183adc3b43.jpg -> gradcam_fd1cca21dc8b4d64ad28b28fa4fa1f3d.jpg
+2026-05-10 15:19:32.480054: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_fd1cca21dc8b4d64ad28b28fa4fa1f3d.jpg: True
+Processing Grad-CAM for 421a00540a434baead7004c6b1458b0a_9e99dd8a8dd46238.jpg -> gradcam_b106cb2b21e141ce8fdc5ff790537543.jpg
+2026-05-10 15:22:41.453096: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_b106cb2b21e141ce8fdc5ff790537543.jpg: True
+Processing Grad-CAM for 1ea8af2373d8414f9860338ecf4a0812_94b78d183adc3b43.jpg -> gradcam_c76ced6cfd5940a482321b58b42c0587.jpg
+2026-05-10 15:25:03.062406: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_c76ced6cfd5940a482321b58b42c0587.jpg: True
+Processing Grad-CAM for 01a9ec8f8b194560a59e2ab664e37ca1_99a9ed6694933354.jpg -> gradcam_8aab1a725e1446af938a132e03f6edae.jpg
+2026-05-10 15:30:37.815178: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 9.153655992122367e-05
+Image saved to static/uploads\gradcam_8aab1a725e1446af938a132e03f6edae.jpg: True
+Processing Grad-CAM for cfce680010f94490866dd538ac6390e3_9e99dd8a8dd46238.jpg -> gradcam_3ec4725d5fb34c7f84d7403ca3c4ac3c.jpg
+2026-05-10 15:47:19.210768: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_3ec4725d5fb34c7f84d7403ca3c4ac3c.jpg: True
+Processing Grad-CAM for 0268504fb1df47e8a7ef62172d7f3085_26853.jpg -> gradcam_f0b86b7a3bc4454c89217aec6dfa240e.jpg
+2026-05-10 16:02:09.751857: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 7.146736606955528e-07
+Image saved to static/uploads\gradcam_f0b86b7a3bc4454c89217aec6dfa240e.jpg: True
+Processing Grad-CAM for d25ee4f45d5d4f2a9f12d34d50ff6728_25748.jpg -> gradcam_9a5517aa28d04cdf8d9790458cd33966.jpg
+2026-05-10 16:05:16.756234: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 6.435227260226384e-05
+Image saved to static/uploads\gradcam_9a5517aa28d04cdf8d9790458cd33966.jpg: True
+Processing Grad-CAM for 7b30711e25a74e74b3a3097848081691_25750.jpg -> gradcam_30faab822668477888e2e1cab406b693.jpg
+2026-05-10 16:06:37.299259: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.0504310416290537e-05
+Image saved to static/uploads\gradcam_30faab822668477888e2e1cab406b693.jpg: True
+Processing Grad-CAM for e46b7fd7bd8345f5b5bb14828e45f286_25750.jpg -> gradcam_3dad04f654d347199ec8442d6f3540fa.jpg
+2026-05-10 16:06:42.575059: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.0504310416290537e-05
+Image saved to static/uploads\gradcam_3dad04f654d347199ec8442d6f3540fa.jpg: True
+Processing Grad-CAM for 80459c28f7704425bc314e243d22a41b_25750.jpg -> gradcam_3f61db34e0bd4c86a50d6485ef762a42.jpg
+2026-05-10 16:06:47.132674: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.0504310416290537e-05
+Image saved to static/uploads\gradcam_3f61db34e0bd4c86a50d6485ef762a42.jpg: True
+Processing Grad-CAM for c87a78f4dd814a5a80bba9d667d13002_26850.jpg -> gradcam_e93a6d913aa14ea6b435ec760549c287.jpg
+2026-05-10 16:06:48.708318: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 1.8482817498721715e-09
+Image saved to static/uploads\gradcam_e93a6d913aa14ea6b435ec760549c287.jpg: True
+Processing Grad-CAM for 66b822c841d14e0d92a0f5575169e3c5_25750.jpg -> gradcam_48c157163e094db4868e4a5613062da1.jpg
+2026-05-10 16:07:04.419866: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.0504310416290537e-05
+Image saved to static/uploads\gradcam_48c157163e094db4868e4a5613062da1.jpg: True
+Processing Grad-CAM for 21c1e6a57b3d48c49e827959a9a8eb0a_camera.jpg -> gradcam_c66293dbdd374f00a109d7e8f9425615.jpg
+2026-05-10 16:08:00.153899: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.0001500030921306461
+Image saved to static/uploads\gradcam_c66293dbdd374f00a109d7e8f9425615.jpg: True
+Processing Grad-CAM for b701a35dd18c438cb6618e1442db213b_9e99dd8a8dd46238.jpg -> gradcam_47e47f1849ac45138a37a92b141b65d6.jpg
+2026-05-10 21:28:32.400009: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_47e47f1849ac45138a37a92b141b65d6.jpg: True
+Processing Grad-CAM for b9b10a7ce36b403baef410a1e5610752_9e99dd8a8dd46238.jpg -> gradcam_04b6bca729ee442db3dac534b94b3cd8.jpg
+2026-05-11 08:25:56.930618: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_04b6bca729ee442db3dac534b94b3cd8.jpg: True
+Processing Grad-CAM for e52c28d131264705aaa56a3b4a3f7cae_titr_a_2121772_f0006_ob.jpg -> gradcam_7bbd331d8cb84193b8f6ecdee77d802d.jpg
+2026-05-11 08:26:08.559843: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.0016314148670062423
+Image saved to static/uploads\gradcam_7bbd331d8cb84193b8f6ecdee77d802d.jpg: True
+Processing Grad-CAM for 0de1c77faf28489da47fe40dbe9c4e6b_Plant-Disease-Detection-and-Classification-by-Deep-Learning.jpg -> gradcam_7254bfb62762492db2997f5c23469d04.jpg
+2026-05-11 08:37:11.690496: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00012774000060744584
+Image saved to static/uploads\gradcam_7254bfb62762492db2997f5c23469d04.jpg: True
+Validation: Organic pixel ratio for ce7c55ee0a664f14b6f0e93a44d96dc6_Plant-Disease-Detection-and-Classification-by-Deep-Learning.jpg is 0.0041
+Validation: Organic pixel ratio for a7a0a5830afc4db492047618f687474b_Plant-Disease-Detection-and-Classification-by-Deep-Learning.jpg is 0.0041
+Validation: Organic pixel ratio for 418584e971aa42f5a9970b49d6dc0936_9e99dd8a8dd46238.jpg is 0.8779
+Processing Grad-CAM for 418584e971aa42f5a9970b49d6dc0936_9e99dd8a8dd46238.jpg -> gradcam_187c5d85ad7743fabc3c7825592e0638.jpg
+2026-05-11 08:45:00.983091: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_187c5d85ad7743fabc3c7825592e0638.jpg: True
+Validation: Organic pixel ratio for 9924c078792c4b9a85d6906721907748_94b78d183adc3b43.jpg is 0.9710
+Processing Grad-CAM for 9924c078792c4b9a85d6906721907748_94b78d183adc3b43.jpg -> gradcam_400b8ef4776249a297329c06c7012b98.jpg
+2026-05-11 08:46:47.415685: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_400b8ef4776249a297329c06c7012b98.jpg: True
+Validation: Organic pixel ratio for 6b8550dcd08844aba228285a6f563c25_94b78d183adc3b43.jpg is 0.9710
+Processing Grad-CAM for 6b8550dcd08844aba228285a6f563c25_94b78d183adc3b43.jpg -> gradcam_1e6314fa6ba546e0a0b310e4cd206a36.jpg
+2026-05-11 09:14:15.969640: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.883049066644162e-05
+Image saved to static/uploads\gradcam_1e6314fa6ba546e0a0b310e4cd206a36.jpg: True
+Validation: Organic pixel ratio for a3acf44902ee420e8ef02b984936a0ce_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for a3acf44902ee420e8ef02b984936a0ce_8b741acf9c3342ae.jpg -> gradcam_0b68d2150f794cadbdfdb0cc752a8e64.jpg
+2026-05-11 10:16:36.204161: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_0b68d2150f794cadbdfdb0cc752a8e64.jpg: True
+Validation: Organic pixel ratio for ce25218ed1e249af91df4fa460fd9671_9e99dd8a8dd46238.jpg is 0.8779
+Processing Grad-CAM for ce25218ed1e249af91df4fa460fd9671_9e99dd8a8dd46238.jpg -> gradcam_c4e9e10c2a79448f98efbbfd58a88199.jpg
+2026-05-11 10:33:13.993303: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 0.00010572167229838669
+Image saved to static/uploads\gradcam_c4e9e10c2a79448f98efbbfd58a88199.jpg: True
+Validation: Organic pixel ratio for e6f34818a4b64df8b7170d3aac2d105b_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for e6f34818a4b64df8b7170d3aac2d105b_8b741acf9c3342ae.jpg -> gradcam_35761f248246448bb43c5066b16cdfbd.jpg
+2026-05-11 10:42:26.861600: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_35761f248246448bb43c5066b16cdfbd.jpg: True
+Validation: Organic pixel ratio for ba03e2b466a643ac90b6e3be4271c4ae_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for ba03e2b466a643ac90b6e3be4271c4ae_8b741acf9c3342ae.jpg -> gradcam_66f84de0423742b9aa9c50744567779d.jpg
+2026-05-11 19:36:22.899815: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_66f84de0423742b9aa9c50744567779d.jpg: True
+Validation: Organic pixel ratio for 717d411d166e4ea1a576b20f0bbbc4a7_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for 717d411d166e4ea1a576b20f0bbbc4a7_8b741acf9c3342ae.jpg -> gradcam_64455a9abe7d4492a4a10ad9d32dfa16.jpg
+2026-05-11 20:30:43.743979: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_64455a9abe7d4492a4a10ad9d32dfa16.jpg: True
+Validation: Organic pixel ratio for 550e40ac2a114954ab54eb11c87b0ce4_OIP.jpg is 0.7670
+Processing Grad-CAM for 550e40ac2a114954ab54eb11c87b0ce4_OIP.jpg -> gradcam_9cf69224943943c4946810e3e81e4852.jpg
+2026-05-11 20:31:52.004362: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 1.1151284340371603e-08
+Image saved to static/uploads\gradcam_9cf69224943943c4946810e3e81e4852.jpg: True
+Validation: Organic pixel ratio for c9f674518fb64b33a849684fd4251406_9d788a91891b8f79.jpg is 0.9650
+Processing Grad-CAM for c9f674518fb64b33a849684fd4251406_9d788a91891b8f79.jpg -> gradcam_0032570fa84846cf9903260b3e7ca418.jpg
+2026-05-11 20:32:21.812004: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 5.899310781387612e-05
+Image saved to static/uploads\gradcam_0032570fa84846cf9903260b3e7ca418.jpg: True
+Validation: Organic pixel ratio for 10664fced63742c6a3430422f6ca8c49_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for 10664fced63742c6a3430422f6ca8c49_8b741acf9c3342ae.jpg -> gradcam_8b192277585947218095e9c75cd788e5.jpg
+2026-05-13 14:28:24.089877: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_8b192277585947218095e9c75cd788e5.jpg: True
+Validation: Organic pixel ratio for 78b9b1a636b34649a1af887f0ad14a68_8b741acf9c3342ae.jpg is 0.8007
+Processing Grad-CAM for 78b9b1a636b34649a1af887f0ad14a68_8b741acf9c3342ae.jpg -> gradcam_03050be458ad492ea12a0bb206dceec5.jpg
+2026-05-15 08:31:40.227076: Starting make_gradcam_heatmap for conv2d_1
+Heatmap generated. Max val: 3.085022035520524e-05
+Image saved to static/uploads\gradcam_03050be458ad492ea12a0bb206dceec5.jpg: True

@@ -1,0 +1,167 @@
+{% extends "import.html" %}
+{% block content %}
+
+<div style="min-height:100vh; padding:30px;">
+    <div class="container">
+        <div style="margin-bottom: 25px;">
+            <h2 style="color:var(--text-color); font-weight:800; margin:0;" data-i18n="nav_map">Regional Outbreak Map</h2>
+            <div style="color:#78909c; margin-top:6px;">Real-time visualization of crop disease reports in your region</div>
+        </div>
+
+        <div class="card shadow-lg" style="border-radius:24px; overflow:hidden; border:none;">
+            <div class="card-body p-0">
+                <div id="outbreakMap" style="height: 600px; width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4 mb-3">
+                <div class="card" style="border-radius:15px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div class="card-body">
+                        <h6 style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #4caf50; letter-spacing: 1px;">Live Monitoring</h6>
+                        <p style="margin:0; font-size: 0.9rem; opacity: 0.8;">Each marker represents a confirmed disease detection. Data is updated in real-time as users perform scans.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" style="border-radius:15px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div class="card-body">
+                        <h6 style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #4caf50; letter-spacing: 1px;">Prevention Zones</h6>
+                        <p style="margin:0; font-size: 0.9rem; opacity: 0.8;">High-density clusters indicate potential outbreak zones. Farmers in these areas are advised to take preventive measures.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" style="border-radius:15px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div class="card-body">
+                        <h6 style="font-weight: 800; text-transform: uppercase; font-size: 0.75rem; color: #4caf50; letter-spacing: 1px;">Data Integrity</h6>
+                        <p style="margin:0; font-size: 0.9rem; opacity: 0.8;">Coordinates are blurred to protect user privacy while maintaining regional accuracy for disease tracking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Custom Marker Styles -->
+<style>
+    .pulse-marker {
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 0 rgba(204, 169, 44, 0.4);
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+    .leaflet-popup-content-wrapper {
+        border-radius: 12px;
+        padding: 5px;
+        background: var(--card-bg);
+        color: var(--text-color);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const map = L.map('outbreakMap').setView([15.3647, 75.1240], 13); // Zoomed into Hubli based on your screenshot
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    function getMarkerColor(disease) {
+        if (!disease) return '#78909c';
+        const d = disease.toLowerCase();
+        if (d.includes('healthy')) return '#2e7d32'; // Green
+        if (d.includes('powdery')) return '#f9a825'; // Orange/Yellow
+        if (d.includes('rust')) return '#d32f2f';    // Bright Red
+        return '#1976d2';
+    }
+
+    fetch('/map_data')
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) return;
+
+            data.forEach(item => {
+                if (item.lat && item.lon) {
+                    const color = getMarkerColor(item.disease);
+                    
+                    // Create a pulsing circle marker
+                    const marker = L.circleMarker([item.lat, item.lon], {
+                        radius: 10,
+                        fillColor: color,
+                        color: "#fff",
+                        weight: 3,
+                        opacity: 1,
+                        fillOpacity: 0.9,
+                        className: 'pulse-marker'
+                    }).addTo(map);
+
+                    marker.bindPopup(`
+                        <div style="font-family: 'Segoe UI', sans-serif; padding: 5px;">
+                            <div style="text-transform: uppercase; font-size: 10px; font-weight: 800; color: #78909c; margin-bottom: 2px;">AI Detection Result</div>
+                            <div style="font-size: 16px; font-weight: 900; color: ${color};">${item.disease}</div>
+                            <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;">📍 Hubli Region</div>
+                            <div style="font-size: 11px; margin-top: 8px; border-top: 1px solid #eee; pt-2;">${item.created_at}</div>
+                        </div>
+                    `);
+                }
+            });
+        });
+
+    // Add a Legend (Key) with Counter
+    const legend = L.control({position: 'topright'});
+    legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'info legend');
+        div.id = "map-legend";
+        div.style.background = 'var(--card-bg)';
+        div.style.padding = '15px';
+        div.style.borderRadius = '16px';
+        div.style.border = '1px solid var(--border-color)';
+        div.style.color = 'var(--text-color)';
+        div.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+        
+        // We will update the count inside the fetch
+        div.innerHTML = `
+            <div style="font-weight:900; font-size:12px; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px; color:#4caf50; border-bottom:1px solid #eee; pb-2;">AgriGuard Stats</div>
+            <div style="margin-bottom:12px;">
+                <span style="font-size:11px; color:#78909c;">Total Scans:</span>
+                <span id="total-scans-count" style="font-size:18px; font-weight:900; margin-left:5px;">0</span>
+            </div>
+            <div style="display:flex; align-items:center; margin-bottom:8px;">
+                <div style="width:12px; height:12px; background:#d32f2f; border-radius:50%; margin-right:8px; border:2px solid #fff;"></div>
+                <span style="font-size:13px; font-weight:700;">Leaf Rust</span>
+            </div>
+            <div style="display:flex; align-items:center; margin-bottom:8px;">
+                <div style="width:12px; height:12px; background:#f9a825; border-radius:50%; margin-right:8px; border:2px solid #fff;"></div>
+                <span style="font-size:13px; font-weight:700;">Powdery Mildew</span>
+            </div>
+            <div style="display:flex; align-items:center;">
+                <div style="width:12px; height:12px; background:#2e7d32; border-radius:50%; margin-right:8px; border:2px solid #fff;"></div>
+                <span style="font-size:13px; font-weight:700;">Healthy Plant</span>
+            </div>
+        `;
+        return div;
+    };
+    legend.addTo(map);
+
+    // Update counter after data loads
+    fetch('/map_data')
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                document.getElementById('total-scans-count').textContent = data.length;
+            }
+        });
+});
+</script>
+
+{% endblock %}

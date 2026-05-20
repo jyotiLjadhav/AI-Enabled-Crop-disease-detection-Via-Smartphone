@@ -1,51 +1,199 @@
 {% extends "import.html" %} 
 {% block content %}
 
-<div style="min-height:100vh; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); padding:30px;">
+<div style="min-height:100vh;">
 
-    <!-- HEADER -->
-    <div class="text-center mb-4">
-        <h1 style="color:#ffffff; font-weight:800;">
-            🌿 <span data-i18n="app_title">AI Crop Disease Detection</span>
-        </h1>
-        <p style="color:#cfd8dc;">
-            <span data-i18n="app_subtitle">Smart Deep Learning System for Instant Plant Disease Prediction</span>
-        </p>
+{% if show_hero %}
+    <!-- ===== HERO BANNER ===== -->
+    <div id="heroSection" style="
+        position: relative;
+        width: 100%;
+        min-height: 92vh;
+        background: url('/static/agri_hero_banner.png') center center / cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    ">
+        <!-- Dark gradient overlay for readability -->
+        <div style="
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(10,40,12,0.88) 0%, rgba(27,94,32,0.75) 50%, rgba(0,0,0,0.6) 100%);
+        "></div>
+
+        <!-- Animated particle dots -->
+        <div class="hero-particles"></div>
+
+        <!-- HERO CONTENT -->
+        <div style="position:relative; z-index:2; text-align:center; padding: 40px 20px; max-width: 900px;">
+            
+            <!-- Badge -->
+            <div style="display:inline-block; background:rgba(129,199,132,0.2); border:1px solid rgba(129,199,132,0.5); border-radius:50px; padding:6px 20px; margin-bottom:24px;">
+                <span style="color:#a5d6a7; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase;">🛡️ AI-Powered Crop Intelligence</span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 style="
+                font-size: clamp(2.8rem, 7vw, 5.5rem);
+                font-weight: 900;
+                color: white;
+                line-height: 1.1;
+                margin-bottom: 20px;
+                text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+            ">
+                AgriGuard <span style="background: linear-gradient(90deg, #81c784, #4caf50, #a5d6a7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AI</span>
+            </h1>
+
+            <!-- Tagline -->
+            <p style="
+                font-size: clamp(1rem, 2.5vw, 1.4rem);
+                color: rgba(255,255,255,0.85);
+                font-weight: 500;
+                max-width: 650px;
+                margin: 0 auto 40px;
+                line-height: 1.7;
+            ">
+                Detect plant diseases in seconds using Deep Learning.<br>
+                Protect your harvest. Empower your farm. <strong style="color:#a5d6a7;">Save every crop.</strong>
+            </p>
+
+            <!-- CTA Buttons -->
+            <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:60px;">
+                <a href="#detectSection" onclick="document.getElementById('detectSection').scrollIntoView({behavior:'smooth'}); return false;"
+                   style="
+                    background: linear-gradient(135deg, #2e7d32, #4caf50);
+                    color: white;
+                    padding: 16px 36px;
+                    border-radius: 50px;
+                    font-weight: 800;
+                    font-size: 1.05rem;
+                    text-decoration: none;
+                    box-shadow: 0 8px 25px rgba(46,125,50,0.5);
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    🔬 Predict Disease Now
+                </a>
+                <a href="{{ url_for('map_view') }}"
+                   style="
+                    background: rgba(255,255,255,0.12);
+                    color: white;
+                    padding: 16px 36px;
+                    border-radius: 50px;
+                    font-weight: 800;
+                    font-size: 1.05rem;
+                    text-decoration: none;
+                    border: 2px solid rgba(255,255,255,0.35);
+                    backdrop-filter: blur(10px);
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                " onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+                    🌍 View Outbreak Map
+                </a>
+            </div>
+
+            <!-- Stats Row -->
+            <div style="display:flex; gap:40px; justify-content:center; flex-wrap:wrap;">
+                <div style="text-align:center;">
+                    <div style="font-size:2rem; font-weight:900; color:#81c784;"></div>
+                    <div style="color:rgba(255,255,255,0.6); font-size:0.85rem; font-weight:600;"></div>
+                </div>
+                <div style="width:1px; background:rgba(255,255,255,0.2);"></div>
+                <div style="text-align:center;">
+                    <div style="font-size:2rem; font-weight:900; color:#81c784;">90</div>
+                    <div style="color:rgba(255,255,255,0.6); font-size:0.85rem; font-weight:600;">AI Accuracy</div>
+                </div>
+                <div style="width:1px; background:rgba(255,255,255,0.2);"></div>
+                <div style="text-align:center;">
+                    <div style="font-size:2rem; font-weight:900; color:#81c784;">3s</div>
+                    <div style="color:rgba(255,255,255,0.6); font-size:0.85rem; font-weight:600;">Detection Speed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); animation: bounce 2s infinite; cursor:pointer;"
+             onclick="document.getElementById('detectSection').scrollIntoView({behavior:'smooth'})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
     </div>
+{% endif %}
 
-    <!-- MAIN CARD -->
-    <div class="container">
+    <!-- ===== DETECT SECTION ===== -->
+    <div id="detectSection" style="padding:30px;">
+        <!-- GLOBAL ADVISORY ALERT (ADMIN CONTROLLED) -->
+        {% if broadcast_msg %}
+        <div class="alert alert-warning border-0 shadow rounded-4 p-4 mb-4 d-flex align-items-center gap-3" 
+             style="background: linear-gradient(135deg, #fffbe6, #ffffff); border-left: 6px solid #ffc107 !important; transition: all 0.3s;">
+            <div style="background: #fff3cd; padding: 12px; border-radius: 12px; font-size: 28px;">📢</div>
+            <div>
+                <h5 class="fw-bold mb-1" style="color: #856404;">Expert Agricultural Advisory</h5>
+                <p class="mb-0 text-dark opacity-75 fw-bold">{{ broadcast_msg }}</p>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="card shadow-lg"
-            style="border-radius:20px; padding:30px; background:#ffffffee;">
+            style="border-radius:24px; padding:35px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); transition: background 0.3s;">
 
             <!-- WEATHER & LOCATION -->
-            <div class="row mb-3">
+            <div class="row mb-4">
                 <div class="col-md-12">
-                    <h5 style="font-weight:bold; color:#1976d2;">Weather-Based Suggestions</h5>
-                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                        <input type="text" id="locationInput" class="form-control" placeholder="Enter your city or location" style="max-width:220px; display:inline-block;">
-                        <button id="detectLocation" class="btn btn-sm btn-info" style="font-weight:bold;">Detect My Location</button>
-                        <button id="fetchWeather" class="btn btn-sm btn-success" style="font-weight:bold;">Get Weather</button>
+                    <div style="background: #f8f9fa; border-radius: 16px; padding: 20px; border: 1px solid #e0e0e0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                            <div style="background: #e3f2fd; padding: 8px; border-radius: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5 0-2.4-1.9-4.3-4.3-4.5-1-4.2-4.7-7-9.2-5.5C5.1 5.9 3 9.2 3 13c0 3.3 2.7 6 6 6h8.5Z"/></svg>
+                            </div>
+                            <h5 data-i18n="weather_title" style="margin: 0; font-weight: 700; color: #1976d2; font-size: 1.1rem;">Weather-Based Suggestions</h5>
+                        </div>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                            <div style="position: relative; flex: 1; min-width: 200px;">
+                                <input type="text" id="locationInput" class="form-control" placeholder="Enter city or location" 
+                                    style="border-radius: 12px; padding: 10px 15px; border: 2px solid #dee2e6; transition: border-color 0.2s;">
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button id="detectLocation" class="btn" style="background: #1976d2; color: white; border-radius: 12px; font-weight: 600; padding: 10px 18px; border: none; display: flex; align-items: center; gap: 6px; transition: transform 0.2s;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    <span data-i18n="weather_detect">Detect</span>
+                                </button>
+                                <button id="fetchWeather" class="btn" style="background: #2e7d32; color: white; border-radius: 12px; font-weight: 600; padding: 10px 18px; border: none; display: flex; align-items: center; gap: 6px; transition: transform 0.2s;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.89 16.7c.31-.05.62-.07.94-.07 2.1 0 3.82 1.57 4.12 3.63.13.9-.62 1.74-1.53 1.74H4.58c-.9 0-1.66-.84-1.53-1.74.3-2.06 2.02-3.63 4.12-3.63.32 0 .63.02.94.07.6-.82 1.53-1.39 2.59-1.57.34-.06.7-.09 1.07-.09.37 0 .73.03 1.07.09 1.06.18 1.99.75 2.59 1.57Z"/><path d="m17.66 17.66 1.41 1.41"/><path d="m2 2 20 20"/></svg>
+                                    <span data-i18n="weather_check">Check</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="weatherInfo" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; display: none;">
+                            <!-- Content injected via JS -->
+                        </div>
                     </div>
-                    <div id="weatherInfo" style="margin-top:10px; color:#333; font-size:15px;"></div>
                 </div>
             </div>
 
-            <div class="row text-center mb-3">
+            <div class="row text-center mb-4">
                 <div class="col-md-6 mb-3">
-                    <h5 style="font-weight:bold; color:#1b5e20;"> Upload Image</h5>
+                    <h5 data-i18n="upload_title" style="font-weight:bold; color:#1b5e20; margin-bottom: 15px;">
+                        Upload Image
+                    </h5>
                     <form id="upload-file" method="post" enctype="multipart/form-data">
-                        <label class="btn w-100"
-                            style="background:linear-gradient(90deg, #1b5e20, #4caf50); color:white; padding:15px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:18px;">
-                            Choose File
+                        <label class="btn w-100 action-btn"
+                            style="background:linear-gradient(135deg, #1b5e20, #4caf50); color:white; padding:20px; border-radius:15px; cursor:pointer; font-weight:700; font-size:1.1rem; box-shadow: 0 4px 15px rgba(27,94,32,0.25); border: none; transition: all 0.3s ease;">
+                            <span data-i18n="btn_choose">Choose File</span>
                             <input type="file" name="file" id="imageUpload" accept="image/*" style="display:none;">
                         </label>
                     </form>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <h5 style="font-weight:bold; color:#ff9800;"> Use Camera</h5>
-                    <button id="openCamera" class="btn w-100"
-                        style="background:linear-gradient(90deg, #ff9800, #ffb74d); color:white; padding:15px; border-radius:10px; font-weight:bold; font-size:18px; border:none;">
+                    <h5 data-i18n="camera_title" style="font-weight:bold; color:#e65100; margin-bottom: 15px;">
+                        Use Camera
+                    </h5>
+                    <button data-i18n="btn_camera" id="openCamera" class="btn w-100 action-btn"
+                        style="background:linear-gradient(135deg, #e65100, #ff9800); color:white; padding:20px; border-radius:15px; font-weight:700; font-size:1.1rem; box-shadow: 0 4px 15px rgba(230,81,0,0.25); border:none; transition: all 0.3s ease;">
                         Open Camera
                     </button>
                 </div>
@@ -85,15 +233,28 @@
                     <img id="imagePreview" style="width:100%; max-width:300px; border-radius:12px; border:3px solid #1b5e20; object-fit:contain;">
                 </div>
                 <br><br>
-                <button id="btn-predict" class="btn btn-primary" style="padding:12px 30px; border-radius:12px; font-size:20px; font-weight:bold;">
+                <button data-i18n="btn_predict" id="btn-predict" class="btn btn-primary" style="padding:12px 30px; border-radius:12px; font-size:20px; font-weight:bold;">
                    Predict Disease
                 </button>
             </div>
 
-            <!-- LOADER -->
-            <div class="loader text-center mt-4" style="display:none;">
-                <div class="spinner-border text-success" style="width: 3rem; height: 3rem;"></div>
-                <p class="mt-2" style="font-weight:bold; font-size:18px; color:#1b5e20;">AI Processing Image...</p>
+            <!-- ANIMATED LOADER -->
+            <div class="loader text-center mt-5" style="display:none;">
+                <div style="position: relative; display: inline-block;">
+                    <div class="spinner-border text-success" style="width: 5rem; height: 5rem; border-width: 0.35rem;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loading-pulse"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 9.8A7 7 0 0 1 11 20Z"/><path d="m9 13 2 2 4-4"/></svg>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h4 id="loader-text" style="font-weight:800; color:var(--text-color); margin:0;">Uploading image...</h4>
+                    <p style="color:#78909c; font-size:0.95rem; margin-top:8px;">Our AI is scanning your plant for symptoms</p>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div style="max-width: 300px; margin: 20px auto 0; height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;">
+                    <div id="loader-progress" style="width: 10%; height: 100%; background: linear-gradient(90deg, #4caf50, #81c784); transition: width 0.5s ease;"></div>
+                </div>
             </div>
 
             <!-- RESULT -->
@@ -114,8 +275,8 @@
                     </div>
 
                     <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <input id="vaTextInput" class="form-control" placeholder="Type your question..." style="flex:1; min-width:220px;">
-                        <button id="vaAskBtn" class="btn btn-success" style="font-weight:800;">Ask</button>
+                        <input id="vaTextInput" class="form-control" data-i18n="va_placeholder" placeholder="Type your question..." style="flex:1; min-width:220px;">
+                        <button id="vaAskBtn" class="btn btn-success" data-i18n="voice_ask" style="font-weight:800;">Ask</button>
                     </div>
 
                     <div style="margin-top:12px;">
@@ -137,8 +298,31 @@
 
 <style>
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
+}
+.action-btn:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+}
+.form-control:focus {
+    border-color: #1976d2 !important;
+    box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.15) !important;
+}
+@keyframes scanLine {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+.loading-pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.6; }
 }
 </style>
 
@@ -149,39 +333,47 @@ const weatherInfo = document.getElementById("weatherInfo");
 const locationInput = document.getElementById("locationInput");
 const detectLocationBtn = document.getElementById("detectLocation");
 const fetchWeatherBtn = document.getElementById("fetchWeather");
-
-// Detect location using browser geolocation
+ 
+ // Detect location using browser geolocation + IP Fallback
 detectLocationBtn.onclick = function() {
-    if (!navigator.geolocation) {
-        weatherInfo.innerHTML = "Geolocation not supported.";
-        return;
-    }
     weatherInfo.innerHTML = "Detecting location...";
-    navigator.geolocation.getCurrentPosition(function(pos) {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-        // Use reverse geocoding to get city name (OpenWeatherMap API)
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.address && data.address.city) {
-                    locationInput.value = data.address.city;
-                } else if (data.address && data.address.town) {
-                    locationInput.value = data.address.town;
-                } else if (data.address && data.address.village) {
-                    locationInput.value = data.address.village;
-                } else {
-                    locationInput.value = `${lat.toFixed(3)},${lon.toFixed(3)}`;
-                }
-                weatherInfo.innerHTML = "Location detected.";
-            })
-            .catch(() => {
-                locationInput.value = `${lat.toFixed(3)},${lon.toFixed(3)}`;
-                weatherInfo.innerHTML = "Location detected.";
+    
+    // First try IP-based location (often better for laptops/Hubli ISP issues)
+    fetch("http://ip-api.com/json")
+        .then(res => res.json())
+        .then(ipData => {
+            if (ipData && ipData.city) {
+                locationInput.value = ipData.city;
+                weatherInfo.innerHTML = "Location detected (IP).";
+            } else {
+                throw new Error("IP detection failed");
+            }
+        })
+        .catch(() => {
+            // Fallback to Browser Geolocation if IP fails
+            if (!navigator.geolocation) {
+                weatherInfo.innerHTML = "Location detection not supported.";
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const addr = data.address || {};
+                        const name = addr.city || addr.town || addr.village || addr.municipality || addr.suburb || addr.county || addr.state_district;
+                        if (name) {
+                            locationInput.value = name;
+                        } else {
+                            locationInput.value = `${lat.toFixed(3)},${lon.toFixed(3)}`;
+                        }
+                        weatherInfo.innerHTML = "Location detected (GPS).";
+                    });
+            }, function() {
+                weatherInfo.innerHTML = "Location access denied.";
             });
-    }, function() {
-        weatherInfo.innerHTML = "Location access denied.";
-    });
+        });
 };
 
 // Weather values (used for backend advice; don't parse from UI text)
@@ -194,20 +386,48 @@ function renderWeather(temp, humidity) {
     lastWeatherTemp = Number.isFinite(temp) ? temp : null;
     lastWeatherHumidity = Number.isFinite(humidity) ? humidity : null;
 
+    const weatherInfoDiv = document.getElementById("weatherInfo");
+    weatherInfoDiv.style.display = "block";
+
     let risk = "";
+    let riskIcon = "";
+    let riskColor = "";
+    
     if (lastWeatherHumidity !== null) {
         if (lastWeatherHumidity > 80) {
-            risk = "<b style='color:#c62828;'>High humidity -> Powdery mildew risk increased</b>";
+            risk = "High humidity -> Powdery mildew risk increased";
+            riskIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>';
+            riskColor = "#c62828";
         } else if (lastWeatherHumidity > 60) {
-            risk = "<b style='color:#fbc02d;'>Moderate humidity -> Monitor for fungal diseases</b>";
+            risk = "Moderate humidity -> Monitor for fungal diseases";
+            riskIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>';
+            riskColor = "#fbc02d";
         } else {
-            risk = "<b style='color:#388e3c;'>Low humidity -> Fungal risk is low</b>";
+            risk = "Low humidity -> Fungal risk is low";
+            riskIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>';
+            riskColor = "#388e3c";
         }
     }
 
-    const tempText = (lastWeatherTemp === null) ? "N/A" : `${lastWeatherTemp.toFixed(1)} C`;
+    const tempText = (lastWeatherTemp === null) ? "N/A" : `${lastWeatherTemp.toFixed(1)}°C`;
     const humText = (lastWeatherHumidity === null) ? "N/A" : `${Math.round(lastWeatherHumidity)}%`;
-    weatherInfo.innerHTML = `Temp: <b>${tempText}</b> | Humidity: <b>${humText}</b><br>${risk}`;
+    
+    weatherInfoDiv.innerHTML = `
+        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: #607d8b; font-size: 0.9rem; font-weight: 600;">TEMPERATURE</span>
+                <span style="font-size: 1.2rem; font-weight: 800; color: #263238;">${tempText}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: #607d8b; font-size: 0.9rem; font-weight: 600;">HUMIDITY</span>
+                <span style="font-size: 1.2rem; font-weight: 800; color: #263238;">${humText}</span>
+            </div>
+        </div>
+        <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px; color: ${riskColor}; font-weight: 700; font-size: 0.95rem; background: ${riskColor}10; padding: 8px 12px; border-radius: 8px;">
+            ${riskIcon}
+            <span>${risk}</span>
+        </div>
+    `;
 }
 
 async function fetchOpenMeteo(lat, lon) {
@@ -244,6 +464,9 @@ fetchWeatherBtn.onclick = async function() {
         return;
     }
 
+    // SAVE TO MEMORY
+    localStorage.setItem("lastPlantLocation", loc);
+
     weatherInfo.innerHTML = "Fetching weather...";
     lastWeatherTemp = null;
     lastWeatherHumidity = null;
@@ -277,6 +500,16 @@ fetchWeatherBtn.onclick = async function() {
         lastWeatherLon = null;
     }
 };
+
+// LOAD FROM MEMORY ON PAGE START
+window.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("lastPlantLocation");
+    if (saved) {
+        locationInput.value = saved;
+        // Optionally auto-fetch weather for the saved location
+        fetchWeatherBtn.click();
+    }
+});
 let imageInput = document.getElementById("imageUpload");
 let preview = document.getElementById("imagePreview");
 let imageSection = document.querySelector(".image-section");
@@ -304,7 +537,7 @@ function reliabilityInfo(conf) {
     if (!Number.isFinite(c)) return { label: "Unknown Reliability", color: "#546e7a" };
     if (c > 85) return { label: "High Reliability", color: "#2e7d32" };
     if (c >= 70) return { label: "Moderate Confidence", color: "#f9a825" };
-    return { label: "Low Confidence â€“ Retake Image", color: "#c62828" };
+    return { label: "Low Confidence - Retake Image", color: "#c62828" };
 }
 
 function urgencyInfo(disease, conf) {
@@ -315,7 +548,7 @@ function urgencyInfo(disease, conf) {
     }
     if (Number.isFinite(c) && c >= 85) return { label: "Immediate Action Required", color: "#c62828" };
     if (Number.isFinite(c) && c >= 70) return { label: "Preventive Care Suggested", color: "#f57c00" };
-    return { label: "Low Confidence â€“ Retake Image", color: "#c62828" };
+    return { label: "Low Confidence - Retake Image", color: "#c62828" };
 }
 
 function productRecommendations(disease, conf) {
@@ -332,7 +565,7 @@ function productRecommendations(disease, conf) {
             },
             {
                 name: "Neem Oil Spray",
-                use: "Preventive + early-stage control. Spray both sides of leaves every 5â€“7 days.",
+                use: "Preventive + early-stage control. Spray both sides of leaves every 5-7 days.",
             }
         );
     } else if (d.toLowerCase().includes("rust")) {
@@ -446,10 +679,18 @@ function setAssistantVisible(on) {
 
 function speakText(text) {
     if (!("speechSynthesis" in window)) return;
+    const lang = localStorage.getItem("lang") || "en";
+    const langMap = {
+        "en": "en-IN",
+        "hi": "hi-IN",
+        "mr": "mr-IN",
+        "kn": "kn-IN"
+    };
+
     try {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(String(text || ""));
-        utter.lang = "en-IN";
+        utter.lang = langMap[lang] || "en-IN";
         utter.rate = 1.0;
         window.speechSynthesis.speak(utter);
     } catch (e) {}
@@ -462,50 +703,81 @@ function setAssistantAnswer(text, { speak = false } = {}) {
 }
 
 function buildAssistantAnswer(question) {
+    const lang = localStorage.getItem("lang") || "en";
     const q = String(question || "").toLowerCase().trim();
-    if (!q) return "Ask a question like: what disease is this, how to treat, is it dangerous.";
+    
+    const templates = {
+        en: {
+            no_q: "Ask a question like: what disease is this, how to treat, is it dangerous.",
+            no_pred: "Run a prediction first, then ask me about the disease, confidence, remedy, or danger level.",
+            disease: (d, c, r) => `The predicted disease is ${d} with ${c}% confidence (${r}).`,
+            treat: (d, rem, urg, extra) => `Remedy for ${d}: ${rem}.${extra} (${urg}).`,
+            danger: (urg, c, r) => `Severity indicator: ${urg}. Confidence is ${c}% (${r}). If symptoms spread, isolate the plant and follow the remedy.`,
+            conf: (c, r) => `Model confidence is ${c}% which means: ${r}.`,
+            products: (d, p, urg) => `For ${d}, you can consider: ${p}. (${urg})`,
+            no_products: (d) => `I don't have product suggestions for ${d}.`,
+            fallback: (d, c, r, rem) => `For ${d}, confidence is ${c}% (${r}). Remedy: ${rem}. Ask: how to treat or is it dangerous.`
+        },
+        kn: {
+            no_q: "ಈ ರೋಗ ಯಾವುದು, ಚಿಕಿತ್ಸೆ ಹೇಗೆ, ಇದು ಅಪಾಯಕಾರಿಯೇ ಎಂದು ಕೇಳಿ.",
+            no_pred: "ಮೊದಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ, ನಂತರ ರೋಗ, ವಿಶ್ವಾಸಾರ್ಹತೆ ಅಥವಾ ಚಿಕಿತ್ಸೆಯ ಬಗ್ಗೆ ಕೇಳಿ.",
+            disease: (d, c, r) => `ಪತ್ತೆಯಾದ ರೋಗ ${d}, ವಿಶ್ವಾಸಾರ್ಹತೆ ${c}% (${r}).`,
+            treat: (d, rem, urg, extra) => `${d} ರೋಗಕ್ಕೆ ಪರಿಹಾರ: ${rem}.${extra} (${urg}).`,
+            danger: (urg, c, r) => `ಅಪಾಯದ ಮಟ್ಟ: ${urg}. ವಿಶ್ವಾಸಾರ್ಹತೆ ${c}% (${r}). ಲಕ್ಷಣಗಳು ಹೆಚ್ಚಾದರೆ ಗಿಡವನ್ನು ಬೇರ್ಪಡಿಸಿ ಮತ್ತು ಪರಿಹಾರ ಅನುಸರಿಸಿ.`,
+            conf: (c, r) => `ಮಾದರಿಯ ವಿಶ್ವಾಸಾರ್ಹತೆ ${c}% ಅಂದರೆ: ${r}.`,
+            products: (d, p, urg) => `${d} ಗಾಗಿ ನೀವು ಇವುಗಳನ್ನು ಬಳಸಬಹುದು: ${p}. (${urg})`,
+            no_products: (d) => `${d} ಗಾಗಿ ನನ್ನ ಬಳಿ ಉತ್ಪನ್ನಗಳ ಸಲಹೆ ಇಲ್ಲ.`,
+            fallback: (d, c, r, rem) => `${d} ರೋಗ, ವಿಶ್ವಾಸಾರ್ಹತೆ ${c}% (${r}). ಪರಿಹಾರ: ${rem}. ಚಿಕಿತ್ಸೆ ಅಥವಾ ಅಪಾಯದ ಬಗ್ಗೆ ಕೇಳಿ.`
+        },
+        hi: {
+            no_q: "पूछें: यह कौन सी बीमारी है, इसका इलाज क्या है, क्या यह खतरनाक है।",
+            no_pred: "पहले स्कैन करें, फिर मुझसे बीमारी, आत्मविश्वास या उपचार के बारे में पूछें।",
+            disease: (d, c, r) => `पहचानी गई बीमारी ${d} है, आत्मविश्वास ${c}% (${r})।`,
+            treat: (d, rem, urg, extra) => `${d} के लिए उपाय: ${rem}.${extra} (${urg})।`,
+            danger: (urg, c, r) => `खतरे का स्तर: ${urg}। आत्मविश्वास ${c}% (${r}) है। यदि लक्षण फैलते हैं, तो पौधे को अलग करें।`,
+            conf: (c, r) => `मॉडल का आत्मविश्वास ${c}% है जिसका अर्थ है: ${r}।`,
+            products: (d, p, urg) => `${d} के लिए, आप इन पर विचार कर सकते हैं: ${p}। (${urg})`,
+            no_products: (d) => `मेरे पास ${d} के लिए उत्पाद सुझाव नहीं हैं।`,
+            fallback: (d, c, r, rem) => `${d} के लिए, आत्मविश्वास ${c}% (${r}) है। उपाय: ${rem}।`
+        }
+    };
 
-    if (!lastPrediction) {
-        return "Run a prediction first, then ask me about the disease, confidence, remedy, or danger level.";
-    }
+    const t = templates[lang] || templates.en;
+
+    if (!q) return t.no_q;
+    if (!lastPrediction) return t.no_pred;
 
     const disease = lastPrediction.result || "Unknown";
-    const conf = lastPrediction.confidence;
+    const confVal = lastPrediction.confidence ? lastPrediction.confidence : 0;
+    const confStr = confVal.toFixed(2);
     const remedy = lastPrediction.remedy || "Not available";
-    const rel = reliabilityInfo(conf).label;
-    const urg = urgencyInfo(disease, conf).label;
+    const rel = reliabilityInfo(confVal).label;
+    const urg = urgencyInfo(disease, confVal).label;
 
-    const wantsDisease = q.includes("what disease") || q.includes("which disease") || q.includes("disease is this") || q.includes("name of disease");
-    const wantsTreat = q.includes("treat") || q.includes("treatment") || q.includes("remedy") || q.includes("medicine") || q.includes("fungicide") || q.includes("spray");
-    const wantsDanger = q.includes("danger") || q.includes("dangerous") || q.includes("severity") || q.includes("serious") || q.includes("risk");
-    const wantsConfidence = q.includes("confidence") || q.includes("reliable") || q.includes("reliability") || q.includes("sure");
-    const wantsProducts = q.includes("buy") || q.includes("product") || q.includes("recommend") || q.includes("pesticide") || q.includes("fertilizer");
+    const wantsDisease = q.includes("what disease") || q.includes("which disease") || q.includes("disease is this") || q.includes("ರೋಗ") || q.includes("बीमारी");
+    const wantsTreat = q.includes("treat") || q.includes("treatment") || q.includes("remedy") || q.includes("ಪರಿಹಾರ") || q.includes("ಚಿಕಿತ್ಸೆ") || q.includes("उपाय") || q.includes("इलाज");
+    const wantsDanger = q.includes("danger") || q.includes("dangerous") || q.includes("risk") || q.includes("ಅಪಾಯ") || q.includes("ಖತರಾ") || q.includes("खतरा");
+    const wantsConfidence = q.includes("confidence") || q.includes("reliable") || q.includes("ಖಚಿತ") || q.includes("भरोसा");
+    const wantsProducts = q.includes("buy") || q.includes("product") || q.includes("ಖರೀದಿ") || q.includes("ಉತ್ಪನ್ನ") || q.includes("खरीदें") || q.includes("प्रोडक्ट");
 
-    if (wantsDisease) {
-        return `The predicted disease is ${disease} with ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% confidence (${rel}).`;
-    }
-
+    if (wantsDisease) return t.disease(disease, confStr, rel);
+    
     if (wantsTreat) {
-        const { recs } = productRecommendations(disease, conf);
-        const extra = recs && recs.length ? ` Recommended products: ${recs.slice(0, 2).map(r => r.name).join(" and ")}.` : "";
-        return `Remedy for ${disease}: ${remedy}.${extra} (${urg}).`;
+        const { recs } = productRecommendations(disease, confVal);
+        const extra = recs && recs.length ? ` Recommended: ${recs.slice(0, 2).map(r => r.name).join(", ")}.` : "";
+        return t.treat(disease, remedy, urg, extra);
     }
 
-    if (wantsDanger) {
-        return `Severity indicator: ${urg}. Confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% (${rel}). If symptoms spread, isolate the plant and follow the remedy.`;
-    }
-
-    if (wantsConfidence) {
-        return `Model confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% which means: ${rel}.`;
-    }
+    if (wantsDanger) return t.danger(urg, confStr, rel);
+    if (wantsConfidence) return t.conf(confStr, rel);
 
     if (wantsProducts) {
-        const { recs } = productRecommendations(disease, conf);
-        if (!recs || recs.length === 0) return `I don't have product suggestions for ${disease}.`;
-        return `For ${disease}, you can consider: ${recs.slice(0, 3).map(r => r.name).join(", ")}. (${urg})`;
+        const { recs } = productRecommendations(disease, confVal);
+        if (!recs || recs.length === 0) return t.no_products(disease);
+        return t.products(disease, recs.slice(0, 3).map(r => r.name).join(", "), urg);
     }
 
-    return `For ${disease}, confidence is ${Number.isFinite(conf) ? conf.toFixed(2) : "N/A"}% (${rel}). Remedy: ${remedy}. Ask: how to treat or is it dangerous.`;
+    return t.fallback(disease, confStr, rel, remedy);
 }
 
 function ensureRecognition() {
@@ -513,7 +785,14 @@ function ensureRecognition() {
     if (!SR) return null;
 
     const r = new SR();
-    r.lang = "en-IN";
+    const lang = localStorage.getItem("lang") || "en";
+    const langMap = {
+        "en": "en-IN",
+        "hi": "hi-IN",
+        "mr": "mr-IN",
+        "kn": "kn-IN"
+    };
+    r.lang = langMap[lang] || "en-IN";
     r.interimResults = false;
     r.continuous = false;
     r.onresult = (event) => {
@@ -652,180 +931,237 @@ document.getElementById("btn-predict").onclick = function () {
         return;
     }
 
+    const loaderText = document.getElementById("loader-text");
+    const loaderProgress = document.getElementById("loader-progress");
+    const messages = [
+        { text: "Uploading image...", progress: 20 },
+        { text: "Analyzing leaf patterns...", progress: 45 },
+        { text: "Running neural diagnosis...", progress: 65 },
+        { text: "Generating focus heatmap...", progress: 85 },
+        { text: "Finalizing report...", progress: 95 }
+    ];
+
+    let msgIndex = 0;
+    loaderText.textContent = messages[0].text;
+    loaderProgress.style.width = messages[0].progress + "%";
+
+    const interval = setInterval(() => {
+        msgIndex = (msgIndex + 1) % messages.length;
+        loaderText.textContent = messages[msgIndex].text;
+        loaderProgress.style.width = messages[msgIndex].progress + "%";
+    }, 2000);
+
     loader.style.display = "block";
     resultBox.innerHTML = "";
     
     let formData = new FormData();
     formData.append("file", selectedFile);
-    // Add weather data if available
-    if (Number.isFinite(lastWeatherTemp)) {
-        formData.append("weather_temp", String(lastWeatherTemp));
+    if (Number.isFinite(lastWeatherTemp)) formData.append("weather_temp", String(lastWeatherTemp));
+    if (Number.isFinite(lastWeatherHumidity)) formData.append("weather_humidity", String(lastWeatherHumidity));
+    if (Number.isFinite(lastWeatherLat)) {
+        formData.append("lat", String(lastWeatherLat));
+        formData.append("lon", String(lastWeatherLon));
     }
-    if (Number.isFinite(lastWeatherHumidity)) {
-        formData.append("weather_humidity", String(lastWeatherHumidity));
-    }
+    formData.append("lang", localStorage.getItem("lang") || "en");
 
     fetch("/predict", {
         method: "POST",
         body: formData
     })
-    .then(async (res) => {
-        let data = null;
-        try {
-            data = await res.json();
-        } catch (e) {
-            data = null;
-        }
-
-        if (!res.ok) {
-            const msg = (data && data.error) ? data.error : `Backend error (HTTP ${res.status})`;
-            loader.style.display = "none";
-            resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;"><b>Error:</b> ${msg}</div>`;
-            return null;
-        }
-        return data;
-    })
+    .then(res => res.json())
     .then(data => {
-        if (!data) return;
+        clearInterval(interval);
         loader.style.display = "none";
         
         if (data.error) {
-            resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;"><b>Error:</b> ${data.error}</div>`;
+            resultBox.innerHTML = `
+                <div style="background:#fff4f4; border: 2px solid #ffcdd2; padding:25px; border-radius:20px; color:#c62828; text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">⚠️</div>
+                    <h4 style="font-weight: 800; margin-bottom: 10px;">${data.error}</h4>
+                    <p style="color: #546e7a; font-weight: 500; line-height: 1.5;">${data.suggestion || 'Please try again with a different image.'}</p>
+                    <button class="btn btn-outline-danger mt-3" onclick="location.reload()" style="border-radius: 10px; font-weight: 700;">Try Again</button>
+                </div>`;
             return;
         }
 
-        let isHealthy = data.result && data.result.toLowerCase().includes('healthy');
-        let statusColor = isHealthy ? '#2e7d32' : '#c62828';
-        let confVal = (data.confidence !== undefined && data.confidence !== null) ? Number(data.confidence) : NaN;
-        let relInfo = reliabilityInfo(confVal);
-        let urgInfo = urgencyInfo(data.result, confVal);
-        
-        // Dynamic search link for "Buy Treatment"
-        let searchKeyword = encodeURIComponent(data.result + " fungicide plant disease treatment");
-        let buyLink = `https://www.google.com/search?q=${searchKeyword}&tbm=shop`;
-
-        // Product recommendations (context-aware)
-        let productPack = productRecommendations(data.result, confVal);
-        let productsHtml = '';
-        if (productPack && productPack.recs && productPack.recs.length) {
-            productsHtml = `
-                <div style="margin-top:16px; padding:14px; background:#ffffff; border-radius:14px; border:1px solid #e0e0e0; text-align:left;">
-                    <div style="font-weight:900; color:#263238; font-size:16px; margin-bottom:10px;">Recommended Products</div>
-                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
-                        ${productPack.recs.slice(0, 3).map(p => `
-                            <div style="border:1px solid #eceff1; border-radius:12px; padding:12px; background:#fafafa;">
-                                <div style="font-weight:900; color:#1b5e20; margin-bottom:6px;">${p.name}</div>
-                                <div style="color:#455a64; font-size:14px; line-height:1.35; min-height:40px;">${p.use}</div>
-                                <div style="margin-top:10px;">
-                                    <a href="${buyUrl(p.name)}" target="_blank" class="btn btn-sm" style="font-weight:800; color:#fff; background:#1976d2; border-radius:10px; padding:8px 10px;">
-                                        Buy Now
-                                    </a>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Top 3 predictions display
-        let top3Html = '';
-        if (data.top3 && Array.isArray(data.top3)) {
-            top3Html = `<div style=\"margin-bottom:18px;\">
-                <h4 style=\"color:#388e3c; font-weight:700;\">Top 3 Predictions</h4>
-                <ol style=\"list-style:none; padding:0; margin:0;\">
-                    ${data.top3.map((item, idx) => `
-                        <li style=\"margin-bottom:8px;\">
-                            <span style=\"font-weight:bold; color:#1b5e20; font-size:17px;\">${idx+1}. ${item.label}</span>
-                            <span style=\"color:#555; font-size:16px;\"> â€“ ${item.confidence.toFixed(2)}%</span>
-                        </li>
-                    `).join('')}
-                </ol>
-            </div>`;
-        }
-
-        let gradcamHtml = '';
-        if (data.gradcam) {
-            gradcamHtml = `<div style="margin:18px 0;">
-                <h4 style="color:#1976d2; font-weight:700;">Disease Region Highlight (Grad-CAM)</h4>
-                <div style="display:inline-block; padding:10px; border-radius:15px; background:#e3f2fd; box-shadow:0px 4px 12px rgba(0,0,0,0.15);">
-                    <img src="${data.gradcam}" alt="Disease Heatmap" style="width:100%; max-width:300px; border-radius:12px; border:3px solid #1976d2; object-fit:contain;">
-                </div>
-            </div>`;
-        }
-
-        let weatherAdviceHtml = '';
-        if (data.weather_advice) {
-            weatherAdviceHtml = `<div style=\"margin:15px 0; padding:12px; background:#e3f2fd; border-radius:10px; color:#1565c0; font-size:16px;\">ðŸŒ¦ï¸ <b>Weather-based Suggestion:</b> ${data.weather_advice}</div>`;
-        }
+        const isHealthy = data.result.toLowerCase().includes('healthy');
+        const statusColor = isHealthy ? '#2e7d32' : '#e65100';
+        const confVal = data.confidence;
+        const buyLink = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(data.result + " treatment fungicide")}`;
 
         resultBox.innerHTML = `
-            <div style="background: linear-gradient(135deg,#e8f5e9,#ffffff); padding:25px; border-radius:18px; box-shadow:0px 6px 18px rgba(0,0,0,0.15); animation: fadeIn 0.5s ease-in-out;">
-                <h3 style="color:#1b5e20; font-weight:800;">AI Prediction Result</h3>
-                ${top3Html}
-                <div style="margin:15px 0;">
-                    <span style="background:${statusColor}; color:white; padding:8px 18px; border-radius:20px; font-weight:bold; font-size:18px;">
-                        ${data.result || 'No result'}
-                    </span>
-                </div>
-
-                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0 14px 0;">
-                    <span style="background:${relInfo.color}; color:#fff; padding:7px 14px; border-radius:999px; font-weight:900; font-size:14px;">
-                        ${relInfo.label}
-                    </span>
-                    <span style="background:${urgInfo.color}; color:#fff; padding:7px 14px; border-radius:999px; font-weight:900; font-size:14px;">
-                        ${urgInfo.label}
-                    </span>
-                </div>
-                ${gradcamHtml}
-                ${weatherAdviceHtml}
-                <div style="font-size:16px; margin-bottom:15px; padding:10px; background:#fff; border-radius:10px; border-left: 5px solid ${statusColor}; text-align:left;">
-                    <b>Description:</b> ${data.description || 'N/A'}
-                </div>
-
-                <p style="font-size:18px;"> Confidence: <b>${data.confidence !== undefined ? data.confidence.toFixed(2) : 'N/A'}%</b></p>
-                <div style="background:#ddd; height:12px; border-radius:10px; margin-bottom:15px;">
-                    <div style="width:${data.confidence !== undefined ? data.confidence : 70}%; background:#4caf50; height:12px; border-radius:10px;"></div>
-                </div>
-
-                <div style="margin-top:12px; padding:14px; background:#ffffff; border-radius:14px; border:1px solid #e0e0e0; text-align:left;">
-                    <div style="font-weight:900; color:#263238; font-size:16px; margin-bottom:10px;">Confidence Graph (Top 3)</div>
-                    <div style="position:relative; width:100%; min-height:220px;">
-                        <canvas id="confidenceChart" height="210"></canvas>
+            <div class="fade-in" style="background: var(--card-bg); border-radius: 30px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); margin-top: 30px; text-align: left;">
+                <div style="background: linear-gradient(90deg, #1b5e20, #4caf50); padding: 30px; color: white;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="text-transform: uppercase; font-size: 11px; font-weight: 800; letter-spacing: 2px; opacity: 0.8; margin-bottom: 8px;">AI Diagnostic Report</div>
+                            <h2 style="font-weight: 900; font-size: 2.2rem; margin: 0;">${data.result}</h2>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); padding: 8px 16px; border-radius: 12px; font-weight: 800; font-size: 1.2rem;">
+                                ${confVal.toFixed(2)}% <span style="font-size: 0.8rem; font-weight: 500;">Confidence</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                ${productsHtml}
+                <div style="padding: 30px;">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div style="position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                                <img src="${data.gradcam || preview.src}" style="width: 100%; display: block;">
+                                <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); color: white; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800;">Grad-CAM Analysis</div>
+                            </div>
+                            <p style="margin-top:15px; font-size:12px; color:#78909c; font-style:italic;">Heatmap shows symptoms detection area.</p>
+                        </div>
 
-                <div style="margin-top:15px; padding:15px; background:#fff3e0; border-radius:10px; text-align:left;">
-                    <p style="margin:0; color:#e65100; font-size:16px;"> <b>Remedy:</b> ${data.remedy || 'Not Available'}</p>
-                </div>
+                        <div class="col-lg-6">
+                            <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; height:100%;">
+                                <h6 style="font-weight: 800; font-size: 0.75rem; color: #78909c; text-transform: uppercase; margin-bottom: 20px;">Confidence Analysis</h6>
+                                <div style="height:150px; position:relative; margin-bottom:25px;">
+                                    <canvas id="confidenceChart"></canvas>
+                                </div>
+                                <h6 style="font-weight: 800; font-size: 0.75rem; color: #78909c; text-transform: uppercase; margin-bottom: 15px;">Multi-Model Consensus</h6>
+                                ${(data.classifiers || []).map(c => `
+                                    <div style="margin-bottom: 12px;">
+                                        <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+                                            <span style="color: var(--text-color);">${c.name}</span>
+                                            <span style="color: ${statusColor};">${c.confidence.toFixed(1)}%</span>
+                                        </div>
+                                        <div style="height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;">
+                                            <div style="width: ${c.confidence}%; height: 100%; background: ${statusColor}; border-radius: 10px;"></div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
 
-                ${!isHealthy ? `
-                <div style="margin-top:20px;">
-                    <a href="${buyLink}" target="_blank" class="btn" style="font-weight:bold; color:#fff; background:#f57c00; font-size:18px; padding:12px; width:100%; max-width:300px; border-radius:10px;">
-                            🛒 Buy Treatment
-                    </a>
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; border-left: 6px solid ${statusColor}; height:100%;">
+                                <h6 data-i18n="disease_profile" style="color: ${statusColor}; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 10px;">Disease Profile</h6>
+                                <p style="margin: 0; color: var(--text-color); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;">${data.description}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="background: rgba(255, 152, 0, 0.05); border: 1px solid #ffe0b2; border-radius: 20px; padding: 24px; border-left: 6px solid #ff9800; height:100%;">
+                                <h6 data-i18n="general_remedy" style="color: #e65100; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 10px;">General Remedy</h6>
+                                <p style="margin: 0; color: var(--text-color); font-size: 0.95rem; line-height: 1.6; font-weight: 500; white-space: pre-wrap;">${data.remedy}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Recommended Products Marketplace -->
+                    <div style="margin-top: 30px;">
+                        <h6 style="font-weight: 800; font-size: 0.75rem; color: #78909c; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">
+                            <i class="fas fa-shopping-basket me-2"></i>Recommended Products & Treatment
+                        </h6>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            ${(productRecommendations(data.result, data.confidence).recs || []).map(p => `
+                                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 18px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                                    <div style="font-weight: 900; color: #1b5e20; font-size: 1.1rem; margin-bottom: 8px;">${p.name}</div>
+                                    <div style="font-size: 0.85rem; color: #607d8b; line-height: 1.4; margin-bottom: 15px;">${p.use}</div>
+                                    <a href="https://www.google.com/search?tbm=shop&q=${encodeURIComponent(p.name)}" target="_blank" 
+                                       style="display: block; text-align: center; background: #1976d2; color: white; text-decoration: none; padding: 10px; border-radius: 10px; font-weight: 800; font-size: 0.9rem;">
+                                        Buy on Marketplace
+                                    </a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    ${data.weather_advice ? `
+                    <div style="background: #e3f2fd; border: 1px solid #bbdefb; border-radius: 20px; padding: 24px; margin-top: 24px; display: flex; align-items: center; gap: 15px;">
+                        <div style="font-size: 2rem;">🌦️</div>
+                        <div>
+                            <h6 style="color: #1565c0; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 5px;">Weather Suggestion</h6>
+                            <p style="margin: 0; color: #0d47a1; font-size: 0.95rem; font-weight: 600;">${data.weather_advice}</p>
+                        </div>
+                    </div>` : ''}
+
+                    <div style="margin-top: 35px; display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn" onclick="speakResult('${data.result}', '${data.remedy}')" 
+                                style="background: white; color: #1b5e20; border: 2px solid #1b5e20; border-radius: 14px; padding: 14px 24px; font-weight: 700; flex: 1; min-width: 150px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                        <a href="/download_report/${data.id}" target="_blank" class="btn" 
+                           style="background: #1b5e20; color: white; border-radius: 14px; padding: 14px 24px; font-weight: 700; flex: 1; min-width: 150px; display: flex; align-items: center; justify-content: center; gap: 10px; border: none;">
+                            <i class="fas fa-file-pdf"></i> PDF Report
+                        </a>
+                        ${!isHealthy ? `
+                        <a href="${buyLink}" target="_blank" class="btn" 
+                           style="background: #e65100; color: white; border-radius: 14px; padding: 14px 24px; font-weight: 700; flex: 1; min-width: 150px; display: flex; align-items: center; justify-content: center; gap: 10px; border: none;">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </a>` : ''}
+                    </div>
                 </div>
-                ` : ''}
             </div>
         `;
 
-        lastPrediction = {
-            result: data.result,
-            confidence: confVal,
-            remedy: data.remedy,
-            description: data.description,
-            top3: Array.isArray(data.top3) ? data.top3 : [],
-        };
+        const ctx = document.getElementById('confidenceChart').getContext('2d');
+        if (window.myChart) window.myChart.destroy();
+        window.myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.top3.map(i => i.label),
+                datasets: [{
+                    data: data.top3.map(i => i.confidence),
+                    backgroundColor: [statusColor, '#90a4ae', '#cfd8dc'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, max: 100, display: false },
+                    y: { grid: { display: false }, ticks: { font: { weight: 'bold' }, color: '#78909c' } }
+                }
+            }
+        });
+
+        lastPrediction = { result: data.result, confidence: confVal, remedy: data.remedy, description: data.description, top3: data.top3 };
         setAssistantVisible(true);
-        if (vaHint) vaHint.textContent = "Tip: press Start Mic and ask your question.";
-        renderConfidenceChart(lastPrediction.top3);
+        resultBox.scrollIntoView({ behavior: 'smooth' });
+        
+        // Re-apply language to translate the new dashboard headers
+        if (window.applyLanguage) {
+            applyLanguage(localStorage.getItem('lang') || 'en');
+        }
     })
     .catch(err => {
         loader.style.display = "none";
-        resultBox.innerHTML = `<div style="background:#ffebee;padding:15px;border-radius:12px;color:#c62828;">âŒ Prediction Failed. Please check the backend.</div>`;
+        console.error(err);
     });
 };
+
+window.speakResult = function(disease, remedy) {
+    const lang = localStorage.getItem('lang') || 'en';
+    const text = `${disease}. Treatment: ${remedy}`;
+    const ut = new SpeechSynthesisUtterance(text);
+    const langMap = { 'hi': 'hi-IN', 'kn': 'kn-IN', 'mr': 'mr-IN', 'en': 'en-US' };
+    ut.lang = langMap[lang] || 'en-US';
+    ut.rate = 0.9;
+    window.speechSynthesis.speak(ut);
+};
+</script>
+
+<script>
+    // Handle anchor scroll for Detect navbar link
+    window.addEventListener('load', function() {
+        if (window.location.hash === '#detectSection') {
+            setTimeout(function() {
+                var el = document.getElementById('detectSection');
+                if (el) {
+                    var navHeight = document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 70;
+                    var top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    });
 </script>
 {% endblock %}

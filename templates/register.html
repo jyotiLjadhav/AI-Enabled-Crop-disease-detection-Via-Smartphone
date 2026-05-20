@@ -1,0 +1,56 @@
+{% extends "import.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="fade-in" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 40px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #1b5e20, #4caf50); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(27,94,32,0.2);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    </div>
+                    <h2 style="font-weight: 900; color: var(--text-color);">Create Account</h2>
+                    <p style="color: #78909c; font-weight: 500;">Join the community of smart farmers</p>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="border-radius: 12px; font-weight: 600;">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 700; font-size: 14px; color: #546e7a;">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="Choose a username" required 
+                               style="border-radius: 12px; padding: 12px 15px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); color: var(--text-color);">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 700; font-size: 14px; color: #546e7a;">Email Address</label>
+                        <input type="email" name="email" class="form-control" placeholder="farmer@example.com" required 
+                               style="border-radius: 12px; padding: 12px 15px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); color: var(--text-color);">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" style="font-weight: 700; font-size: 14px; color: #546e7a;">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Create a strong password" required
+                               style="border-radius: 12px; padding: 12px 15px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.02); color: var(--text-color);">
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn" style="background: linear-gradient(90deg, #1b5e20, #2e7d32); color: white; border-radius: 14px; padding: 14px; font-weight: 800; border: none; box-shadow: 0 10px 20px rgba(27,94,32,0.2);">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="font-size: 14px; color: #78909c;">Already have an account? <a href="{{ url_for('login') }}" style="color: #1b5e20; font-weight: 700; text-decoration: none;">Log In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
